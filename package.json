@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "d3": "^7.9.0",
+    "echarts-for-react": "^3.0.2",
+    "neovis.js": "^2.1.0"
+  }
+}
