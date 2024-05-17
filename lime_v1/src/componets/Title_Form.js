@@ -14,7 +14,7 @@ import SearchBar from './SearchBar';
 
 
 export default function Title_form({ selectedValues, setSelectedValues}) {
-    console.log("selected values:", selectedValues);
+    // console.log("selected values:", selectedValues);
     // console.log(selectedValues[0] === "All Tags");
 
 

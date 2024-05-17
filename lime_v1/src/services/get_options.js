@@ -44,34 +44,76 @@ function buildTree(results) {
               rootNodes.push(node); // 添加为根节点
           }
       }
-  });
-  console.log("The returned tree is ", rootNodes);
-  return rootNodes;
+    });
+    console.log("The returned tree is ", rootNodes);
+
+  const options = [ // 这是一个示例的 options 数组，你可以根据你的需求进行修改
+  {
+    value: 'level1',
+    label: 'Level 1',
+    children: [
+      {
+        value: 'level1-1',
+        label: 'Level 1-1',
+        children: [
+          {
+            value: 'level1-1-1',
+            label: 'Level 1-1-1',
+          },
+          {
+            value: 'level1-1-2',
+            label: 'Level 1-1-2',
+          },
+        ],
+      },
+      {
+        value: 'level1-2',
+        label: 'Level 1-2',
+      },
+    ],
+  },
+  {
+    value: 'level2',
+    label: 'Level 2',
+    children: [
+      {
+        value: 'level2-1',
+        label: 'Level 2-1',
+      },
+      {
+        value: 'level2-2',
+        label: 'Level 2-2',
+      },
+    ],
+  },
+];
+    console.log("The correct option is ", options);
+    return options;
 }
 
 
 
 
-export default async function GetOptions(InselectedValues) {
-    console.log("Inselected elements are:", InselectedValues);
-    const bigTag = InselectedValues[0]
-    const query = `
-    MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
-    RETURN child.tag_name AS name, ID(child) AS id, COLLECT(ID(parent)) AS parentIds
-    UNION
-    MATCH (child:Tag)-[:IN*0]->(root:Tag {tag_name: $bigTag})
-    RETURN child.tag_name AS name, ID(child) AS id, [] AS parentIds
-    `;
-    const params = {bigTag : bigTag}
-    try {
-        const records = await Neo4jAsk(query, params);
-        const tree = buildTree(records);
-        return tree;
-    } catch (error) {
-        console.error("Error fetching and building tree:", error);
-        return []; // 返回空数组或错误信息
-    }
-}
+// export default async function GetOptions(InselectedValues) {
+//     console.log("Inselected elements are:", InselectedValues);
+//     const bigTag = InselectedValues[0]
+//     const query = `
+//     MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
+//     RETURN child.tag_name AS name, ID(child) AS id, COLLECT(ID(parent)) AS parentIds
+//     UNION
+//     MATCH (child:Tag)-[:IN*0]->(root:Tag {tag_name: $bigTag})
+//     RETURN child.tag_name AS name, ID(child) AS id, [] AS parentIds
+//     `;
+//     const params = {bigTag : bigTag}
+//     try {
+//         const records = await Neo4jAsk(query, params);
+//         const tree = buildTree(records);
+//         return tree;
+//     } catch (error) {
+//         console.error("Error fetching and building tree:", error);
+//         return []; // 返回空数组或错误信息
+//     }
+// }
 
 
 // import { Neo4jAsk } from "./neo4jService";
@@ -110,49 +152,50 @@ export default async function GetOptions(InselectedValues) {
 //   return Array.from(idToNodeMap.values()).filter(node => node.children.length > 0);
 // }
 
-// export default async function GetOptions( InselectedValues ) {
+export default async function GetOptions( InselectedValues ) {
 
-//   const options = [ // 这是一个示例的 options 数组，你可以根据你的需求进行修改
-//   {
-//     value: 'level1',
-//     label: 'Level 1',
-//     children: [
-//       {
-//         value: 'level1-1',
-//         label: 'Level 1-1',
-//         children: [
-//           {
-//             value: 'level1-1-1',
-//             label: 'Level 1-1-1',
-//           },
-//           {
-//             value: 'level1-1-2',
-//             label: 'Level 1-1-2',
-//           },
-//         ],
-//       },
-//       {
-//         value: 'level1-2',
-//         label: 'Level 1-2',
-//       },
-//     ],
-//   },
-//   {
-//     value: 'level2',
-//     label: 'Level 2',
-//     children: [
-//       {
-//         value: 'level2-1',
-//         label: 'Level 2-1',
-//       },
-//       {
-//         value: 'level2-2',
-//         label: 'Level 2-2',
-//       },
-//     ],
-//   },
-// ];
-//     return(
-//       options
-//     )
-// }
+  const options = [ // 这是一个示例的 options 数组，你可以根据你的需求进行修改
+  {
+    value: 'level1',
+    label: 'Level 1',
+    children: [
+      {
+        value: 'level1-1',
+        label: 'Level 1-1',
+        children: [
+          {
+            value: 'level1-1-1',
+            label: 'Level 1-1-1',
+          },
+          {
+            value: 'level1-1-2',
+            label: 'Level 1-1-2',
+          },
+        ],
+      },
+      {
+        value: 'level1-2',
+        label: 'Level 1-2',
+      },
+    ],
+  },
+  {
+    value: 'level2',
+    label: 'Level 2',
+    children: [
+      {
+        value: 'level2-1',
+        label: 'Level 2-1',
+      },
+      {
+        value: 'level2-2',
+        label: 'Level 2-2',
+      },
+    ],
+  },
+];
+    console.log("The returned tree is ", options);
+    return(
+      options
+    )
+}

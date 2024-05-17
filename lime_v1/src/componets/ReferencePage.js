@@ -22,10 +22,6 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
 
   //  console.log(reference_list);
   //  console.log(Content);
-
-
-   
-
     
     const {
         token: { colorBgContainer, borderRadiusLG },
