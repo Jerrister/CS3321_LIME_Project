@@ -33,7 +33,7 @@ export async function Neo4jAsk(query, params = {}) {
       // resultConsumedAfter：数据库完成查询处理的总时间。
       // 更多详细信息，取决于查询的性质和数据库的状态。
 
-      console.log(`>> The query ${summary.query.text} returned ${records.length} records in ${summary.resultAvailableAfter} ms.`);
+      console.log(`>> The query ${summary.query.text} with param ${params} returned ${records.length} records in ${summary.resultAvailableAfter} ms.`);
 
       // 处理并返回结果
       // const results = records.map(record => {

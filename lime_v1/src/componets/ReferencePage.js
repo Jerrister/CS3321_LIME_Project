@@ -15,9 +15,11 @@ import Title_form from './Title_Form';
 export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues}) {
 
   console.log("AllSrcPage Called!")
-
+  console.log("Content:", Content, "sV:", selectedValues)
    const DataMap =  useLoaderData(Content, selectedValues);
    const reference_list = DataMap.get("reference_list")
+
+   console.log("page r_l:", reference_list);
   
 
   //  console.log(reference_list);
@@ -37,13 +39,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
     return (
         <>
         <Breadcrumb style={{ margin: '20px 0' }}>
-
-        
-
         <div style={{ display: 'flex', alignItems: 'center'}}> {/* 使用 Flex 布局 */}
-
-
-
       <Title_form  selectedValues={selectedValues} setSelectedValues={setSelectedValues} />
 
       <div style={{ flex: 1, textAlign: 'right' }}> {/* 使用 Flex 布局，占据剩余空间并右对齐 */}

@@ -5,7 +5,6 @@ import { Neo4jAsk } from "./neo4jService";
 
 // TODO load 对应tag和 class的data
 export async function loader({params}){
-    // const reference_list = await get_data(params.TagsId),
 
     console.log("Params for the loader are:", params);
     const cur_tag = params.tagsid;
@@ -17,13 +16,20 @@ export async function loader({params}){
     const result = await Neo4jAsk(query, {tag : cur_tag})
     const reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
-            console.log(node.properties);
+            // console.log(node.properties);
             return {
                 title: node.properties.title,
                 year: node.properties.year.toInt(),
                 source: node.properties.journal,
             };
         })
+    
+    return new Map([
+        ['reference_list', reference_list],
+        ['BigTag',  params.tagsid],
+      ]);
+
+}
 
     // const reference_list = [
     //     {"title": "Title0", "year": 2022, "source":"http"  }, 
@@ -45,13 +51,3 @@ export async function loader({params}){
     //     {"authors": "Authors_5", "year": 2033, "source":"https" , "file": "/a" }, 
     //     {"authors": "Authors_6", "year": 2033, "source":"https" , "file": "/a" }, 
     // ]
-    
-    return new Map([
-        ['reference_list', reference_list],
-        ['BigTag',  params.tagsid],
-      ]);
-
-    
-
-}
-

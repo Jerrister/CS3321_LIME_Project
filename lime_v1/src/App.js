@@ -31,6 +31,7 @@ function App() {
   const [Content, setContent] = useState("All");
 
   const [selectedValues, setSelectedValues] = useState(["All Tags"]);
+  console.log("Current Selected Values", selectedValues);
 
   const [VizContent, setVizContent] =  useState("Update Log");
 

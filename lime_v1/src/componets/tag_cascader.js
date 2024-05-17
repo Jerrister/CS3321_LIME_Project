@@ -34,6 +34,7 @@ import GetOptions from '../services/get_options';
 
 export default function TagCascader({ handleSelectedValues, InselectedValues }) {
     const [options, setOptions] = useState([]);
+    // console.log("Inselected value in TagCascader:",InselectedValues);
 
     useEffect(() => {
         GetOptions(InselectedValues).then(setOptions).catch(error => {
@@ -43,6 +44,7 @@ export default function TagCascader({ handleSelectedValues, InselectedValues }) 
     }, [InselectedValues]); // 依赖于 InselectedValues
 
     const onChange = (value, selectedOptions) => {
+        console.log("from tag_cas")
         handleSelectedValues(selectedOptions.map(option => option.value));
     };
 

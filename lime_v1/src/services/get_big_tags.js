@@ -6,7 +6,7 @@ export default async function getBigTags() {
     return Neo4jAsk(query, {}).then(records => {
         let result = records.map(record => record.get('child.tag_name'));
         result.unshift('All Tags');
-        console.log("All tag names:", result);
+        // console.log("All tag names:", result);
         return result; // 现在返回处理后的数据数组
     }).catch(error => {
         console.error("Error fetching big tags:", error);
