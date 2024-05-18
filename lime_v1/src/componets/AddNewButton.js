@@ -1,15 +1,19 @@
-import { Button , Dropdown, Menu, Modal, Form, Input, Select} from 'antd';
-import {   PlusCircleOutlined} from '@ant-design/icons';
-import React, { useState } from 'react';
+import { Button , Dropdown, Menu, Modal, Form, Input, Select,Upload, message} from 'antd';
+import {   PlusCircleOutlined, UploadOutlined} from '@ant-design/icons';
+import React, { useState  , useRef} from 'react';
 // ... 其他必要的导入 ...
 import ManuallyAddForm from './manually_add_form';
-
+import { FolderImporter } from '../services/folderimpoter';
+import axios from 'axios';
+import { AddPaper } from '../services/neo4jadd';
 
 export function AddNewButton() {
   // 用于控制下拉菜单的显示状态
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  // const [FodlerVisible, setModalVisible] = useState(false);
 
+  const fileInputRef = useRef(null);
 
   const handleMenuClick = (e) => {
     setVisible(false); // 关闭下拉菜单
@@ -17,16 +21,58 @@ export function AddNewButton() {
       // 如果点击的是“Add reference manually”
       setModalVisible(true); // 打开模态对话框
     }
+    if(e.key === '4'){
+      console.log("Folder!");
+      fileInputRef.current.click();
+      // FolderImporter();
+    
+    }
     // 处理其他菜单项点击事件...
   };
-
-
-
 
     const handleCancel = () => {
       setModalVisible(false);
     };
+  
 
+    const handleFileChange = async (event) => {
+      const files = event.target.files;
+      if (files.length === 0) {
+        message.error('No files selected');
+        return;
+      }
+  
+      const formData = new FormData();
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i]);
+      }
+  
+      try {
+        const response = await axios.post('http://127.0.0.1:7688/upload', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        message.success('Files uploaded successfully');
+        console.log('Response:', response.data);
+        const result = response.data.result
+        for(let i = 0 ; i < result.length; i ++)
+          {
+            const value = {};
+            const res = result[i];
+            value["Year"] = 'unknown';
+            value["Journal"] = 'unknown';
+            value["Title"] = res["title"];
+            value["path"] = res["path"];
+            value["authors"] = res["author"];
+            AddPaper(value);
+          }
+
+      } catch (error) {
+        message.error('Files upload failed');
+        console.error('There was an error uploading the files!', error);
+      }
+    };
 
 
     // // 处理显示状态的函数
@@ -48,7 +94,7 @@ export function AddNewButton() {
             
           </Menu.SubMenu> */}
       
-    
+          {/* <Menu.Item key="4">Watch folder...</Menu.Item> */}
           <Menu.Item key="4">Watch folder...</Menu.Item>
           <Menu.Item key="5">Add reference manually</Menu.Item>
         </Menu>
@@ -82,7 +128,15 @@ export function AddNewButton() {
         </Dropdown>
 
               <ManuallyAddForm visible={modalVisible} handleCancel={handleCancel} />
-      
+
+              <input
+              type="file"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              webkitdirectory="true"
+              multiple
+              onChange={handleFileChange}
+            />
             </>
 
       );

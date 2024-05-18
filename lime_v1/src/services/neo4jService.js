@@ -6,6 +6,7 @@ const PASSWORD = 'limelime';
 const driver = neo4j.driver(URI, neo4j.auth.basic(USER, PASSWORD));
 export default driver
 
+
 // 假设 driver 已经被正确初始化和配置
 // 输入是查询语句和语句中需要用到的参数，比如：
   // const query = 'MATCH (p:Person {age: $age}) RETURN p.name AS name';

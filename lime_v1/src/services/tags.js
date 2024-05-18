@@ -25,6 +25,7 @@ export async function loader({params}){
             };
         })
 
+    
     // const reference_list = [
     //     {"title": "Title0", "year": 2022, "source":"http"  }, 
     //     {"title": "Title1", "year": 2024, "source":"http"  }, 
@@ -51,7 +52,6 @@ export async function loader({params}){
         ['BigTag',  params.tagsid],
       ]);
 
-    
 
 }
 
