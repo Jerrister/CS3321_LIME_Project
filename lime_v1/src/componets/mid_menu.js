@@ -26,6 +26,7 @@ export default function AppMenu({setContent, setSelectedValues}) {
   const handleClick = (tag)=> {
     // console.log(tag)
     setContent("All");
+    console.log("from mid menu");
     setSelectedValues([tag]);
    }
  

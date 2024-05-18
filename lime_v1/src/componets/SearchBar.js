@@ -1,8 +1,10 @@
 import React , { useState } from 'react';
+import {Neo4jVisionModify} from '../services/neo4jvision';
 
 import { Input, DatePicker, Space, Select } from 'antd';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
+
 
 
 const SearchBar = ({ InPage }) => {
@@ -32,8 +34,11 @@ const SearchBar = ({ InPage }) => {
       .then(response => {
         console.log(InPage)
         console.log(response)
-        console.log(searchValue)
-        console.log(searchField)
+        if(InPage=='Neo4j'){
+          console.log(searchValue)
+          console.log(searchField)
+          Neo4jVisionModify(searchField,searchValue)
+        }
         // console.log(body)
       })
       .catch(error => {
