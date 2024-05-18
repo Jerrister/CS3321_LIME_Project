@@ -11,7 +11,6 @@ import Contact from './routes/contact';
 import WelcomeBlock from './componets/welcome';
 import AllSrcPage from './componets/ReferencePage';
 import LibraryPage from './componets/LibraryPage';
-import {loader as tagDataLoader } from "./services/tags";
 import { useState } from 'react';
 import LogPage from './componets/LogPage';
 import Bubble_VizPage from './componets/Bubble_VizPage';
@@ -49,9 +48,10 @@ function App() {
           // index: true,
           children:[
             {
-              path: "Tags/:tagsid",
+              // path: "Tags/:tagsid",
+              path: "Tags/*",
               element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues}  />,
-              loader: tagDataLoader ,
+              // loader: tagDataLoader,
             },
             {
               element: <WelcomeBlock />,

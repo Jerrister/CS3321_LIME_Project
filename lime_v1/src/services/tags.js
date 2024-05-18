@@ -2,12 +2,12 @@ import {Form, useLoaderData} from "react-router-dom";
 import { Neo4jAsk } from "./neo4jService";
 
 
-
 // TODO load 对应tag和 class的data
-export async function loader({params}){
+export async function loader(selectedValues){
 
-    console.log("Params for the loader are:", params);
-    const cur_tag = params.tagsid;
+    console.log("Params for the loader are:", selectedValues);
+    const cur_tag = selectedValues[selectedValues.length-1];
+    console.log("Selected Params for the loader are:", cur_tag);
     // const query = 'MATCH (p:Paper) RETURN p LIMIT 100';
     const query = `
     MATCH (p:Paper)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
@@ -26,7 +26,7 @@ export async function loader({params}){
     
     return new Map([
         ['reference_list', reference_list],
-        ['BigTag',  params.tagsid],
+        ['BigTag',  selectedValues[0]],
       ]);
 }
 

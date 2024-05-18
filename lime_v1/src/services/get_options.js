@@ -68,7 +68,7 @@ function buildTree(results) {
 
 
 export default async function GetOptions(InselectedValues) {
-    // console.log("Inselected elements are:", InselectedValues);
+    console.log("Inselected elements are:", InselectedValues);
 
     const bigTag = InselectedValues[0]
     // const query = `

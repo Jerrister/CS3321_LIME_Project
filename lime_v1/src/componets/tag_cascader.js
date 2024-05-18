@@ -31,8 +31,11 @@
 import React, { useState, useEffect } from 'react';
 import { Cascader } from 'antd';
 import GetOptions from '../services/get_options';
+import { useNavigate } from 'react-router-dom';
 
-export default function TagCascader({ handleSelectedValues, InselectedValues }) {
+export default function TagCascader({handleSelectedValues, InselectedValues}) {
+    const navigate = useNavigate(); // 初始化 navigate 函数
+
     const [options, setOptions] = useState([]);
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
@@ -46,17 +49,25 @@ export default function TagCascader({ handleSelectedValues, InselectedValues }) 
     const onChange = (value, selectedOptions) => {
         console.log("from tag_cas")
         handleSelectedValues(selectedOptions.map(option => option.value));
+        const path = selectedOptions.map(option => option.value).join('-');
+        // console.log("Navigating to: /Tags/" + path);
+        navigate(`/Library/Tags/${path}`); // 使用 navigate 函数跳转到新路径
     };
 
+    // console.log("isv in cas:", InselectedValues);
+    // console.log("ops in cas:", options);
+
     return (
-        <div style={{ width: "656px" }}>
-            <Cascader
-                options={options}
-                onChange={onChange}
-                expandTrigger="click"
-                value={InselectedValues}
-                style={{ width: 'auto' }}
-            />
+        <div style={{width:"656px"}}>
+        <Cascader
+            options={options}
+            onChange={onChange}
+            value={InselectedValues}
+            defaultValue={InselectedValues[0]}
+            expandTrigger="click"
+            placeholder="Please select"
+            style={{ width: 'auto' }}
+        />
         </div>
     );
 }
