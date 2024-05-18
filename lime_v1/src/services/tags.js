@@ -28,7 +28,6 @@ export async function loader({params}){
         ['reference_list', reference_list],
         ['BigTag',  params.tagsid],
       ]);
-
 }
 
     // const reference_list = [
