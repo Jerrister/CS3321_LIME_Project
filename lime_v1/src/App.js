@@ -10,6 +10,7 @@ import {
 import Contact from './routes/contact';
 import WelcomeBlock from './componets/welcome';
 import AllSrcPage from './componets/ReferencePage';
+import SearchPage from './componets/SearchReferencePage';
 import LibraryPage from './componets/LibraryPage';
 import { useState } from 'react';
 import LogPage from './componets/LogPage';
@@ -52,6 +53,10 @@ function App() {
               path: "Tags/*",
               element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues}  />,
               // loader: tagDataLoader,
+            },
+            {
+              path: "Search/*",
+              element: <SearchPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues}  />,
             },
             {
               element: <WelcomeBlock />,

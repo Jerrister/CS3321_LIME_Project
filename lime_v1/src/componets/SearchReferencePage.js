@@ -1,6 +1,7 @@
 import React, { useState, useEffect }  from 'react';
 import {  Row, Col, Card } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
+import { useLocation } from 'react-router-dom';
 
 import { Button, Radio } from 'antd';
 import ReferenceTable from './reference_table';
@@ -9,39 +10,63 @@ import TagCascader from "./tag_cascader";
 
 import { useLoaderData } from 'react-router';
 import Title_form from './Title_Form';
-import { useLocation } from 'react-router-dom';
-import {loader as tagDataLoader } from "../services/tags";
+import { searcher as tagSearcher} from "../services/tags";
 import { map } from 'd3';
 
+function useRequestDataFromPath() {
+    const location = useLocation();
+    const pathSegments = location.pathname.split('/').filter(Boolean); // 移除空字符串
 
-export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues}) {
+    // 提取Search后面的部分
+    const paramsSegment = pathSegments[2]; // 获取包含参数的部分
+    const params = paramsSegment.split('-'); // 分割不同的参数
+    const requestData = {};
+    params.forEach(param => {
+          const [key, value] = param.split(':');
+          if (key && value) {
+          // 根据key设置相应的requestData属性
+              switch (key) {
+                  case 'f':
+                      requestData.searchField = value;
+                      break;
+                  case 's':
+                      requestData.searchValue = value;
+                      break;
+                  case 'sd':
+                      requestData.startDate = value;
+                      break;
+                  case 'ed':
+                      requestData.endDate = value;
+                      break;
+                  default:
+                      break;
+              }
+          }
+    });
 
-    console.log("AllSrcPage Called!")
+    return requestData;
+}
 
-    console.log("Content:", Content, "sV:", selectedValues)
+export default function SearchPage({Content, selectedValues,setContent, setSelectedValues}) {
+
+    console.log("SearchPage Called!")
+
+    const requestData = useRequestDataFromPath();
+
+    console.log("Search Request:", requestData);
 
     const [refData, setRefData] = useState(new Map([
       ['reference_list', []]
     ]));
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
-    console.log("before ref data:", refData);
-
     useEffect(() => {
-       console.log('Component mounted or updated');
-       console.log('refData in useEffect:', refData);
-    }, [refData]);
-
-    useEffect(() => {
-        console.log("SV before load", selectedValues);
-        tagDataLoader(selectedValues).then(setRefData).catch(error => {
+        tagSearcher(selectedValues, requestData).then(setRefData).catch(error => {
             console.error('Failed to fetch options:', error);
             setRefData(new Map([
               ['reference_list', []]
             ])); // 设置默认或错误状态
         });
-        console.log("after load refdata:", refData );
-        console.log("in loading, selectedValues:", selectedValues);
     }, [selectedValues]);
 
     console.log("ref data:", refData);
