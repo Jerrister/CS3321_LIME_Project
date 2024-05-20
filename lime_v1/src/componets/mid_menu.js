@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { ffect, useState  , useEffect} from 'react';
 import Menu from "antd/lib/menu";
 import { BookOutlined , UserOutlined} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import getBigTags from "../services/get_big_tags";
 
 
-// const BigTags = [ "BigTag1", "BigTag2"]
-  // {"Tag":"BigTag1", "index": "1" }, 
-  // {"Tag":"BigTag2", "index": "2" }, 
-  // {"Tag":"BigTag3", "index": "3" }, 
-  // {"Tag":"BigTag4", "index": "4" },  ]
+// const BigTags = [
+//   {"Tag":"BigTag1", "index": "1" }, 
+//   {"Tag":"BigTag2", "index": "2" }, 
+//   {"Tag":"BigTag3", "index": "3" }, 
+//   {"Tag":"BigTag4", "index": "4" }, ]
 
 
 

@@ -16,9 +16,6 @@ export default function LibraryPage({setContent,setSelectedValues })
 
     // console.log(setSelectedValues)
 
-
-
-
     return(
         <>
         

@@ -6,6 +6,7 @@ const PASSWORD = 'limelime';
 const driver = neo4j.driver(URI, neo4j.auth.basic(USER, PASSWORD));
 export default driver
 
+
 // 假设 driver 已经被正确初始化和配置
 // 输入是查询语句和语句中需要用到的参数，比如：
   // const query = 'MATCH (p:Person {age: $age}) RETURN p.name AS name';
@@ -17,8 +18,8 @@ export default driver
   //     console.error('Error during Neo4j query:', error);
   // });
 export async function Neo4jAsk(query, params = {}) {
-
-  const session = driver.session({ database: 'neo4j' });
+   
+  const session = driver.session({ database: 'lime' });  // 暂时修改为 lime 
   try {
       // 执行Cypher查询
       const result = await session.run(query, params);

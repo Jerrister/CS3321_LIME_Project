@@ -5,7 +5,6 @@ import * as NeoVis from "neovis.js"
 import { useEffect } from "react";
 
 
-
 var neoViz;
 
 export default function Neo4jVision() {
