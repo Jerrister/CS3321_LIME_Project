@@ -2,15 +2,27 @@ import { Button , Dropdown, Menu, Modal, Form, Input, Select,Upload, message} fr
 import {   PlusCircleOutlined, UploadOutlined} from '@ant-design/icons';
 import React, { useState  , useRef} from 'react';
 // ... 其他必要的导入 ...
-import ManuallyAddForm from './manually_add_form';
+import ManuallyAddForm , {ManuallyAddNoteForm, CheckpointForm, ManuallyAddTagForm} from './manually_add_form';
 import { FolderImporter } from '../services/folderimpoter';
 import axios from 'axios';
 import { AddPaper } from '../services/neo4jadd';
+import { tree } from 'd3';
+import DocumentSearch from './ArVixSearch';
 
 export function AddNewButton() {
   // 用于控制下拉菜单的显示状态
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
+  const [checkFileVisible, setcheckFileVisible] = useState(false);
+  
+  const [modalNoteVisible, setModalNoteVisible] = useState(false);
+
+  const [modalTagVisible, setModalTagVisible] = useState(false);
+
+  const [AgxivVisible, setAgxivVisible] = useState(false);
+
+  const [Filelist, setFilelist] = useState([]);
+
   // const [FodlerVisible, setModalVisible] = useState(false);
 
   const fileInputRef = useRef(null);
@@ -23,9 +35,22 @@ export function AddNewButton() {
     }
     if(e.key === '4'){
       console.log("Folder!");
+      setcheckFileVisible(true);
       fileInputRef.current.click();
+
       // FolderImporter();
     
+    }
+    if(e.key === '6'){
+      setModalNoteVisible(true);
+    }
+    if(e.key === '3'){
+      setAgxivVisible(true);
+      // FolderImporter();
+    }
+    if(e.key === '7'){
+      setModalTagVisible(true);
+      // FolderImporter();
     }
     // 处理其他菜单项点击事件...
   };
@@ -33,9 +58,32 @@ export function AddNewButton() {
     const handleCancel = () => {
       setModalVisible(false);
     };
+
+    const handlFilesCancel = () => {
+      setcheckFileVisible(false);
+
+      setFilelist([]);
+    };
+
+    
+
+    const handleNoteCancel = () => {
+      setModalNoteVisible(false);
+    };
+  
+  
+    const handleTagCancel = () => {
+      setModalTagVisible(false);
+    };
   
 
+
+
     const handleFileChange = async (event) => {
+
+      // setcheckFileVisible(true);
+      // console.log("set the files select box visible:" , checkFileVisible)
+
       const files = event.target.files;
       if (files.length === 0) {
         message.error('No files selected');
@@ -46,6 +94,10 @@ export function AddNewButton() {
       for (let i = 0; i < files.length; i++) {
         formData.append('files', files[i]);
       }
+
+
+
+
   
       try {
         const response = await axios.post('http://127.0.0.1:7688/upload', formData, {
@@ -55,20 +107,26 @@ export function AddNewButton() {
         });
         message.success('Files uploaded successfully');
         console.log('Response:', response.data);
-        const result = response.data.result
-        for(let i = 0 ; i < result.length; i ++)
-          {
-            const value = {};
-            const res = result[i];
-            value["Year"] = 'unknown';
-            value["Journal"] = 'unknown';
-            value["Title"] = res["title"];
-            value["path"] = res["path"];
-            value["authors"] = res["author"];
-            AddPaper(value);
-          }
+        const result = response.data.result;
 
-      } catch (error) {
+        setFilelist(result);
+
+
+
+        // for(let i = 0 ; i < result.length; i ++)
+        //   {
+        //     const value = {};
+        //     const res = result[i];
+        //     value["Year"] = 'unknown';
+        //     value["Journal"] = 'unknown';
+        //     value["Title"] = res["title"];
+        //     value["path"] = res["path"];
+        //     value["authors"] = res["author"];
+        //     AddPaper(value);
+        //   }
+
+      }
+      catch (error) {
         message.error('Files upload failed');
         console.error('There was an error uploading the files!', error);
       }
@@ -84,8 +142,8 @@ export function AddNewButton() {
         <Menu onClick={handleMenuClick}>
           {/* ...其他菜单项 */}
           
-          <Menu.Item key="1">Import file(s) from computer</Menu.Item>
-          <Menu.Item key="2">Import folder(s) from computer</Menu.Item>
+          {/* <Menu.Item key="1">Import file(s) from computer</Menu.Item>
+          <Menu.Item key="2">Import folder(s) from computer</Menu.Item> */}
     
           {/* <Menu.SubMenu key="3"  title="Import library">
             <Menu.Item key="3-1">BibTeX (*.bib)</Menu.Item>
@@ -95,8 +153,12 @@ export function AddNewButton() {
           </Menu.SubMenu> */}
       
           {/* <Menu.Item key="4">Watch folder...</Menu.Item> */}
-          <Menu.Item key="4">Watch folder...</Menu.Item>
+          <Menu.Item key="3"> Add  reference from Agxiv </Menu.Item>
+          <Menu.Item key="4"> Add  reference from folder </Menu.Item>
           <Menu.Item key="5">Add reference manually</Menu.Item>
+          <Menu.Item key="6">Add notebook manually</Menu.Item>
+          <Menu.Item key="7">Add Tag manually</Menu.Item>
+
         </Menu>
       );
 
@@ -137,6 +199,18 @@ export function AddNewButton() {
               multiple
               onChange={handleFileChange}
             />
+
+              <ManuallyAddNoteForm visible={modalNoteVisible} handleCancel={handleNoteCancel} />
+  
+              <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel} />
+
+              <DocumentSearch visible={AgxivVisible} setVisible={setAgxivVisible} />
+              
+              <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/>
+              {/* <AF visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/> */}
+
+
+
             </>
 
       );

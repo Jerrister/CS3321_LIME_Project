@@ -17,11 +17,20 @@ export async function loader(selectedValues){
     const reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
             // console.log(node.properties);
-            return {
-                title: node.properties.title,
-                year: node.properties.year.toInt(),
-                source: node.properties.journal,
-            };
+                if (typeof(node.properties.year) == "string") {
+                return {
+                    title: node.properties.title,
+                    year: parseInt(node.properties.year),
+                    source: node.properties.journal,
+                    };
+                    }
+                    else {
+                    return {
+                    title: node.properties.title,
+                    year: node.properties.year.toInt(),
+                    source: node.properties.journal,
+                    };
+                    }
         })
 
     // const reference_list = [
@@ -44,3 +53,8 @@ export async function loader(selectedValues){
     //     {"authors": "Authors_5", "year": 2033, "source":"https" , "file": "/a" }, 
     //     {"authors": "Authors_6", "year": 2033, "source":"https" , "file": "/a" }, 
     // ]
+     return new Map([
+        ['reference_list', reference_list],
+         ['BigTag',  selectedValues[0]],
+        ]);
+}

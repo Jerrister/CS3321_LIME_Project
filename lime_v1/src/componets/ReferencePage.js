@@ -13,14 +13,13 @@ import { useLocation } from 'react-router-dom';
 import {loader as tagDataLoader } from "../services/tags";
 import { map } from 'd3';
 
-
 export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues}) {
 
     console.log("AllSrcPage Called!")
 
-    const location = useLocation();
-    const pathSegments = location.pathname.split('/').slice(2);
-    console.log("Selected path segments:", pathSegments);
+    // const location = useLocation();
+    // const pathSegments = location.pathname.split('/').slice(2);
+    // console.log("Selected path segments:", pathSegments);
 
 
     console.log("Content:", Content, "sV:", selectedValues)
@@ -28,26 +27,36 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
     const [refData, setRefData] = useState(new Map([
       ['reference_list', []]
     ]));
-    // console.log("Inselected value in TagCascader:",InselectedValues);
+    console.log("before useEffect ref data:", refData);
 
     useEffect(() => {
+      console.log('Component mounted or updated');
+      console.log('refData in useEffect:', refData);
+    }, [refData]);
+  
+    // console.log("Inselected value in TagCascader:",InselectedValues);
+
+    // const reference_list = refData.get("reference_list") || []
+    useEffect(() => {
+      console.log("Before Loader, selectedValues :", selectedValues)
         tagDataLoader(selectedValues).then(setRefData).catch(error => {
             console.error('Failed to fetch options:', error);
             setRefData(new Map([
               ['reference_list', []]
             ])); // 设置默认或错误状态
         });
+        console.log("after load refdata:", refData );
+        console.log("in loading, selectedValues:",  selectedValues);
     }, [selectedValues]);
 
     console.log("ref data:", refData);
-
 
     // const [currentData, setCurrentData] = useState(data);
     // useEffect(() => {
     //     setCurrentData(data);  // 更新状态以触发重新渲染
     // }, [data]);
 
-    const reference_list = refData.get("reference_list") || []
+   const reference_list = refData.get("reference_list") || []
 
    console.log("page r_l:", reference_list);
   
@@ -73,7 +82,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
       <Title_form  selectedValues={selectedValues} setSelectedValues={setSelectedValues} />
 
       <div style={{ flex: 1, textAlign: 'right' }}> {/* 使用 Flex 布局，占据剩余空间并右对齐 */}
-   
+
       <Row justify="end"  style={{padding: '0 0 0 14px' , width:"328px" }} >
         <Col>
    
@@ -86,12 +95,8 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
       </Col>
       </Row>
       </div>
-  
-    
-    
-    </div> 
 
-   
+    </div> 
 
 
   </Breadcrumb>
@@ -121,8 +126,6 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
   </div>
 
     </>
-
-
 
     )
 }
