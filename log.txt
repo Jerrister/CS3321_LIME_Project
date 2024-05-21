@@ -671,3 +671,35 @@ Begin:0.002001047134399414
 Begin:0.002000570297241211
 extract need:1.1570239067077637
 result: [{'title': 'COGNET-MD, an evaluation framework and dataset for Large Language Model benchmarks in the medical domain', 'author': ['Dimitrios P. Panagoulias', 'Persephone Papatheodosiou', 'Anastasios P. Palamidas', 'Mattheos Sanoudos', 'Evridiki Tsoureli-Nikita', 'Maria Virvou', 'George A. Tsihrintzis'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10893', 'Journal': 'arVix'}, {'title': 'Application of Artificial Intelligence in Schizophrenia Rehabilitation Management: Systematic Literature Review', 'author': ['Hongyi Yang', 'Fangyuan Chang', 'Dian Zhu', 'Muroi Fumie', 'Zhao Liu'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10883', 'Journal': 'arVix'}, {'title': 'The MESA Security Model 2.0: A Dynamic Framework for Mitigating Stealth Data Exfiltration', 'author': ['Sanjeev Pratap Singh', 'Naveed Afzal'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10880', 'Journal': 'arVix'}, {'title': 'Generative AI for Test Driven Development: Preliminary Results', 'author': ['Moritz Mock', 'Jorge Melegati', 'Barbara Russo'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10849', 'Journal': 'arVix'}, {'title': 'Training Compute Thresholds: Features and Functions in AI Governance', 'author': ['Lennart Heim'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10799', 'Journal': 'arVix'}, {'title': 'StackOverflowVQA: Stack Overflow Visual Question Answering Dataset', 'author': ['Motahhare Mirzaei', 'Mohammad Javad Pirhadi', 'Sauleh Eetemadi'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10736', 'Journal': 'arVix'}, {'title': 'Contestable AI needs Computational Argumentation', 'author': ['Francesco Leofante', 'Hamed Ayoobi', 'Adam Dejl', 'Gabriel Freedman', 'Deniz Gorur', 'Junqi Jiang', 'Guilherme Paulino-Passos', 'Antonio Rago', 'Anna Rapberger', 'Fabrizio Russo', 'Xiang Yin', 'Dekai Zhang', 'Francesca Toni'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10729', 'Journal': 'arVix'}, {'title': 'Autonomous AI-enabled Industrial Sorting Pipeline for Advanced Textile Recycling', 'author': ['Yannis Spyridis', 'Vasileios Argyriou', 'Antonios Sarigiannidis', 'Panagiotis Radoglou', 'Panagiotis Sarigiannidis'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10696', 'Journal': 'arVix'}, {'title': 'Revolutionizing Process Mining: A Novel Architecture for ChatGPT Integration and Enhanced User Experience through Optimized Prompt Engineering', 'author': ['Mehrdad Agha Mohammad Ali Kermani', 'Hamid Reza Seddighi', 'Mehrdad Maghsoudi'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10689', 'Journal': 'arVix'}, {'title': 'From Sora What We Can See: A Survey of Text-to-Video Generation', 'author': ['Rui Sun', 'Yumin Zhang', 'Tejal Shah', 'Jiahao Sun', 'Shuoying Zhang', 'Wenqi Li', 'Haoran Duan', 'Bo Wei', 'Rajiv Ranjan'], 'year': '17 May, 2024', 'path': 'https://arxiv.org/pdf/2405.10674', 'Journal': 'arVix'}]
+
+ begin: 1716255955.597885 , query: 314 
+Begin:0.0030007362365722656
+
+ begin: 1716255970.4066978 , query: 314 
+Begin:0.000997781753540039
+extract need:1.0052525997161865
+result: [{'title': 'Stellar atmospheric parameters of $\\sim$ 11,000 RR Lyrae stars from LAMOST Spectra', 'author': ['Jiangtao Wang', 'Jianrong Shi', 'Jianning Fu', 'Weikai Zong', 'Chunqian Li'], 'year': '23 April, 2024', 'path': 'https://arxiv.org/pdf/2404.15411', 'Journal': 'arVix'}, {'title': 'Reeb flows, pseudo-holomorphic curves and transverse foliations', 'author': ['Naiara V. de Paulo', 'Pedro A. S. Salomão'], 'year': '12 April, 2024', 'path': 'https://arxiv.org/pdf/2404.08864', 'Journal': 'arVix'}, {'title': 'Hybrid Training of Denoising Networks to Improve the Texture Acutance of Digital Cameras', 'author': ['Raphaël Achddou', 'Yann Gousseau', 'Saïd Ladjal'], 'year': '20 February, 2024', 'path': 'https://arxiv.org/pdf/2404.07212', 'Journal': 'arVix'}, {'title': 'The Fact Selection Problem in LLM-Based Program Repair', 'author': ['Nikhil Parasaram', 'Huijie Yan', 'Boyu Yang', 'Zineb Flahy', 'Abriele Qudsi', 'Damian Ziaber', 'Earl Barr', 'Sergey Mechtaev'], 'year': '9 April, 2024', 'path': 'https://arxiv.org/pdf/2404.05520', 'Journal': 'arVix'}, {'title': 'Hierarchy Selection: New team ranking indicators for cyclist multi-stage races', 'author': ['Marcel Ausloos'], 'year': '22 February, 2024', 'path': 'https://arxiv.org/pdf/2404.02910', 'Journal': 'arVix'}, {'title': 'Phonetic Segmentation of the UCLA Phonetics Lab Archive', 'author': ['Eleanor Chodroff', 'Blaž Pažon', 'Annie Baker', 'Steven Moran'], 'year': '28 March, 2024', 'path': 'https://arxiv.org/pdf/2403.19509', 'Journal': 'arVix'}, {'title': 'Towards White Box Deep Learning', 'author': ['Maciej Satkiewicz'], 'year': '17 April, 2024', 'path': 'https://arxiv.org/pdf/2403.09863', 'Journal': 'arVix'}, {'title': 'Vertex-disjoint cycles of different lengths in tournaments', 'author': ['Yandong Bai', 'Wenpei Jia'], 'year': '6 March, 2024', 'path': 'https://arxiv.org/pdf/2403.03692', 'Journal': 'arVix'}, {'title': 'Magnetocaloric performance of RE$_{5}$Pd$_2$In$_4$ (RE = Tb-Tm) compounds', 'author': ['Altifani Rizky Hayyu', 'Stanisław Baran', 'Andrzej Szytuła'], 'year': '27 February, 2024', 'path': 'https://arxiv.org/pdf/2402.17912', 'Journal': 'arVix'}, {'title': 'Customize-A-Video: One-Shot Motion Customization of Text-to-Video Diffusion Models', 'author': ['Yixuan Ren', 'Yang Zhou', 'Jimei Yang', 'Jing Shi', 'Difan Liu', 'Feng Liu', 'Mingi Kwon', 'Abhinav Shrivastava'], 'year': '22 February, 2024', 'path': 'https://arxiv.org/pdf/2402.14780', 'Journal': 'arVix'}]
+
+ begin: 1716262452.1968124 , query: OUA 
+Begin:0.0019996166229248047
+
+ begin: 1716262478.4669728 , query: AO 
+Begin:0.0010013580322265625
+
+ begin: 1716262487.4537573 , query: AI 
+Begin:0.0019981861114501953
+
+ begin: 1716262528.188669 , query: AI 
+Begin:0.0010004043579101562
+
+ begin: 1716262533.590247 , query: AI 
+Begin:0.0010006427764892578
+
+ begin: 1716262536.6499534 , query: AI 
+Begin:0.0010008811950683594
+
+ begin: 1716262546.9998581 , query: SIA 
+Begin:0.0010008811950683594
+
+ begin: 1716262584.678415 , query: DA 
+Begin:0.004000663757324219

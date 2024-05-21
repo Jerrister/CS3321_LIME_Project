@@ -5,9 +5,25 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { Neo4jAsk } from '../services/neo4jService';
 import { AddNote, AddPaper, AddTag } from '../services/neo4jadd';
 // import TagCascader_F from './tag_cascader';
-import AllSrcPage from './ReferencePage';
+// import AllSrcPage from './ReferencePage';
 import TagCascader_Form from './tag_cascader_form';
 // import { AddTag } from '../services/neo4jadd';
+
+
+
+
+
+
+const onFinishFailed_note = (errorInfo) => {
+  console.log('Failed:', errorInfo);
+};
+
+
+
+const onFinishFailed = (errorInfo) => {
+  console.log('Failed:', errorInfo);
+};
+
 
 const  onFinish = async (values) => {
 
@@ -26,7 +42,7 @@ const  onFinish = async (values) => {
   const formattedDate = now.toLocaleString();
   // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
 
-  AddPaper(values);
+  await AddPaper(values);
 
 
 
@@ -60,7 +76,7 @@ const  onFinish = async (values) => {
   // console.log("Paper:" , Paper_result);
 
  tags.map(async element => {
-  AddTag(element);
+  await AddTag(element);
   //  console.log("create tag:",  element);
   //  await Neo4jAsk(tag_query, {tag_name: element  });
    console.log("link tag:", element, " to paper:" , title);
@@ -71,153 +87,14 @@ const  onFinish = async (values) => {
 });
 
   console.log('Success:', values);
+  // setflash(!flash);
+  // toogleFlash();
+          // setflash(!flash);
+          window.location.reload();
 };
-
-
-const onFinish_Filelist = (values) => {
-
-        for(let i = 0 ; i < values.documents.length; i ++)
-          {
-            // console.log("VALUE:" , values.documents[i]["selected"]);
-            if (values.documents[i]["selected"] === true){
-              const value = {};
-              const res = values.documents[i];
-              value["Year"] = 'unknown';
-              value["Journal"] = 'unknown';
-              value["Title"] = res["title"];
-              value["path"] = res["path"];
-              value["authors"] = res["author"];
-              AddPaper(value);
-              console.log("VALUE:" , value);
-            }
-
-            // AddPaper(value);
-          }
-
-
-  console.log('Success:', values);
-  
-  
-};
-
-
-async function  onFinish_note(values)  {
-
-  const title = values["Title"];
-  // const Journal = values['Journal'];
-  // const Year = values["Year"];
-  // const authors = values["authors"];
-  const tags = values["tag"];
-  values["path"] = values["Path"];
-
-  AddNote(values);
-
-  // const now = new Date();
-  // const formattedDate = now.toLocaleString();
-  // // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
-  // const note_query = `CREATE (p:Notebook {  title: $title , build_time: $build_time , path: $path  })
-  //      RETURN p`;
-
-      //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
-  // const Paper_result = await  Neo4jAsk(note_query, { title: title,   build_time: formattedDate , path: path  });
-
-  const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
-  const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Notebook {title: $title})
-  MERGE (p)-[r:BELONGS_TO]->(t) return r`
-  // console.log("Notebook:" , Paper_result);
-
-
-
-
-
-  tags.map(async element => {
-    AddTag(element);
-    console.log("create tag:",  element);
-    // await Neo4jAsk(tag_query, {tag_name: element  });
-    console.log("link tag:", element, " to notebook:" , title);
-    await Neo4jAsk(tag_paper_link , {tag_name: element , title: title });
-  
-    // console.log(element); // 执行某些操作
-    return element; // 即使你不使用返回的数组，也需要返回值
-});
-
-
-
-
-  console.log('Success:', values);
-};
-
-
-
-const onFinishFailed_note = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-const onFinishFailed_tag = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-async function  onFinish_tag(values)  {
-
-  const tag_name = values["Tag_name"];
-  const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
-
-
-  // ParentTag=1 ; 
-  // const Journal = values['Journal'];
-  // const Year = values["Year"];
-  // const authors = values["authors"];
-  // console.log("my tag:", tag_name);
-
-
-  
-  // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
-
-  // const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
-
-  // await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
-  
-  // console.log("Create tag:" , tag_name);
-  // const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
-  // MERGE (t)-[r:IN]->(tp) return r`
-  // await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
-
-
-  // console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
-
-  const AddSuccess = AddTag(tag_name, ParentTag);
-
-  // console.log("ADD SUCC:" , AddSuccess.result);
-
-  AddSuccess.then((result) =>
-    {
-      if(result)
-        {
-          message.success("Success: Add Tag " + tag_name)
-        }
-        else
-        {
-          message.error("Failed: Tag " + tag_name +  " have existed!" );
-        }
-    }
-  )
-
-
-
-  // const [, forceUpdate] = useReducer(x => x + 1, 0);
-  // forceUpdate();
-  if(ParentTag === "All Tags")
-  {window.location.reload();}
-
-  console.log('Success:', values);
-};
-
-const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
 
 export default function ManuallyAddForm({visible , handleCancel}) {
+
     return (
         <Modal
         title="Add reference manually"
@@ -245,16 +122,7 @@ export default function ManuallyAddForm({visible , handleCancel}) {
           <Input />
         </Form.Item>
     
-        {/* <Form.Item
-          label="Authors"
-          name="Author1"
-          rules={[{ required: false}]}
-        >
-
-          <Input.Password />
-        </Form.Item> */}
-
-         {/* <div style={{margin: "-15px 0 8px 9px"}}>  Author(s)</div> */}
+ 
     
         <Form.List
         name="authors"
@@ -395,8 +263,52 @@ export default function ManuallyAddForm({visible , handleCancel}) {
 }
 
 
-
 export function ManuallyAddNoteForm({visible , handleCancel}) {
+  // const toogleFalsh_in = toogleFalsh;
+
+  async function  onFinish_note(values)  {
+
+    const title = values["Title"];
+    // const Journal = values['Journal'];
+    // const Year = values["Year"];
+    // const authors = values["authors"];
+    const tags = values["tag"];
+    values["path"] = values["Path"];
+  
+    await AddNote(values);
+  
+    // const now = new Date();
+    // const formattedDate = now.toLocaleString();
+    // // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
+    // const note_query = `CREATE (p:Notebook {  title: $title , build_time: $build_time , path: $path  })
+    //      RETURN p`;
+  
+        //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
+    // const Paper_result = await  Neo4jAsk(note_query, { title: title,   build_time: formattedDate , path: path  });
+  
+    const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+    const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Notebook {title: $title})
+    MERGE (p)-[r:BELONGS_TO]->(t) return r`
+    // console.log("Notebook:" , Paper_result);
+  
+  
+    tags.map(async element => {
+      await AddTag(element);
+      console.log("create tag:",  element);
+      // await Neo4jAsk(tag_query, {tag_name: element  });
+      console.log("link tag:", element, " to notebook:" , title);
+      await Neo4jAsk(tag_paper_link , {tag_name: element , title: title });
+    
+      // console.log(element); // 执行某些操作
+      return element; // 即使你不使用返回的数组，也需要返回值
+  });
+    console.log('Success:', values);
+    // setflash(!flash);
+    // toogleFlash();
+    window.location.reload();
+  };
+
+  
   return (
       <Modal
       title="Add notebook manually"
@@ -525,6 +437,35 @@ export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist
     console.log("Form values set for updated document list.");
   }, [Filelist, form]);
 
+  const onFinish_Filelist = (values) => {
+    for(let i = 0 ; i < values.documents.length; i ++)
+      {
+        // console.log("VALUE:" , values.documents[i]["selected"]);
+        if (values.documents[i]["selected"] === true){
+          const value = {};
+          const res = values.documents[i];
+          value["Year"] = 'unknown';
+          value["Journal"] = 'unknown';
+          value["Title"] = res["title"];
+          value["path"] = res["path"];
+          value["authors"] = res["author"];
+          AddPaper(value);
+          console.log("VALUE:" , value);
+        }
+
+        // AddPaper(value);
+      }
+
+
+console.log('Success:', values);
+//  setflash(!flash);
+//  toogleFalsh();
+window.location.reload();
+
+
+};
+
+
 
   return (
     <Modal
@@ -586,6 +527,69 @@ export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist
 
 export function ManuallyAddTagForm({visible , handleCancel}) {
   const [ParentTag , SetParentTag ] = useState(["All Tags"])
+
+  const onFinishFailed_tag = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  
+  async function  onFinish_tag(values)  {
+  
+    const tag_name = values["Tag_name"];
+    const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+  
+  
+    // ParentTag=1 ; 
+    // const Journal = values['Journal'];
+    // const Year = values["Year"];
+    // const authors = values["authors"];
+    // console.log("my tag:", tag_name);
+  
+  
+    
+    // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
+  
+    // const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+  
+    // await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
+    
+    // console.log("Create tag:" , tag_name);
+    // const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
+    // MERGE (t)-[r:IN]->(tp) return r`
+    // await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
+  
+  
+    // console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+  
+    const AddSuccess = AddTag(tag_name, ParentTag);
+  
+    // console.log("ADD SUCC:" , AddSuccess.result);
+  
+    AddSuccess.then((result) =>
+      {
+        if(result)
+          {
+            message.success("Success: Add Tag " + tag_name)
+          }
+          else
+          {
+            message.error("Failed: Tag " + tag_name +  " have existed!" );
+          }
+      }
+    )
+  
+  
+    // const [, forceUpdate] = useReducer(x => x + 1, 0);
+    // forceUpdate();
+    if(ParentTag === "All Tags")
+    {window.location.reload();}
+    // setflash(!flash);
+    // console.log("Flash toogler:", toogleFlash);
+    // toogleFlash();
+    // setflash(!flash);
+    
+  
+    console.log('Success:', values);
+  };
   
   return (
       <Modal
@@ -606,7 +610,6 @@ export function ManuallyAddTagForm({visible , handleCancel}) {
       onFinishFailed={onFinishFailed_tag}
       autoComplete="off"
     >
-  
 
       <Form.Item
         label="Tag name"

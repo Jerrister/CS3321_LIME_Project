@@ -29,6 +29,7 @@ import Neo4_VizPage from './componets/Neo4_VisPage';
 function App() {
   
   const [Content, setContent] = useState("Paper");
+  const [flash, setflash] = useState(false);
 
   const [selectedValues, setSelectedValues] = useState(["All Tags"]);
   console.log("Current Selected Values", selectedValues);
@@ -46,14 +47,14 @@ function App() {
   
         {
           path:"Library",
-          element: <LibraryPage setContent={setContent} setSelectedValues={setSelectedValues}   />,
+          element: <LibraryPage setContent={setContent} setSelectedValues={setSelectedValues} flash={flash} setflash={setflash}  />,
           errorElement: <ErrorPage/>,
           // index: true,
           children:[
             {
               // path: "Tags/:tagsid",
               path: "Tags/*",
-              element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues}  />,
+              element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues} flash={flash}  setflash={setflash} />,
               // loader: tagDataLoader,
             },
             {

@@ -14,7 +14,7 @@ export async function loader(selectedValues, Content){
     RETURN p
     `;
     const result = await Neo4jAsk(query, {tag : cur_tag})
-    console.log("in dataloader, select values:",  result);
+    console.log("in dataloader, select values:",  selectedValues);
 
     let reference_list = []
     console.log("Content:" , Content);
@@ -30,7 +30,7 @@ export async function loader(selectedValues, Content){
                     title: node.properties.title,
                     year: parseInt(node.properties.year),
                     source: node.properties.journal,
-                    path: node.properties.path,
+                    path: node.properties.path 
                     };
                     }
                     else {
@@ -41,6 +41,7 @@ export async function loader(selectedValues, Content){
                     };
                     }
         })
+        console.log("In loader ref list :", reference_list);
     }
     else
     {

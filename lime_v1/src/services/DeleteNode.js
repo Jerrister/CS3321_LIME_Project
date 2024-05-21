@@ -6,7 +6,7 @@ import { Neo4jAsk } from '../services/neo4jService';
 
 export  async function deleteRef(paper_title)
 {
-    const dele_paper_query = `MATCH (n:paper)
+    const dele_paper_query = `MATCH (n:Paper)
     WHERE n.title = $del_title
     DETACH DELETE n
     `

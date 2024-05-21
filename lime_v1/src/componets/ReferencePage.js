@@ -14,7 +14,7 @@ import {loader as tagDataLoader } from "../services/tags";
 import { map } from 'd3';
 import { toRef, toNote } from '../services/Note2Ref';
 
-export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues}) {
+export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues }) {
 
     console.log("AllSrcPage Called!")
 
@@ -24,6 +24,9 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
     const [refData, setRefData] = useState(new Map([
       ['reference_list', []]
     ]));
+
+    const [flash, setflash] = useState(false);
+
     console.log("before useEffect ref data:", refData);
 
     useEffect(() => {
@@ -51,7 +54,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
         });
         console.log("after load refdata:", refData );
         console.log("in loading, selectedValues:",  selectedValues);
-    }, [selectedValues, Content]);
+    }, [selectedValues, Content, flash]);
 
     console.log("ref data:", refData);
 
@@ -120,7 +123,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
 
       }}
     >
-        {ReferenceTable(reference_list,Content,selectedValues)}
+        {ReferenceTable(reference_list,Content,selectedValues, flash,  setflash)}
         
         {/* <ReferenceTable reference_list={reference_list} /> */}
         

@@ -15,8 +15,9 @@ export  function AddPaper(values){
     const author_query = `MERGE (a:Author {name: $name}) `; 
     const author_paper_query = `MATCH (a:Author {name: $name}), (p:Paper {title: $title}) 
      MERGE (p)-[r:WRITEN_BY]->(a)  return r`
-  
 
+
+    console.log("create paper:" ,  values["Title"]);
     //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
     const Paper_result =  Neo4jAsk(query, {Journal: Journal, title: title, year: Year,  build_time: formattedDate , path: path  });
 

@@ -9,7 +9,7 @@ import { AddPaper } from '../services/neo4jadd';
 import { tree } from 'd3';
 import DocumentSearch from './ArVixSearch';
 
-export function AddNewButton() {
+export function AddNewButton(flash , setflash) {
   // 用于控制下拉菜单的显示状态
   const [visible, setVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -66,9 +66,9 @@ export function AddNewButton() {
     };
 
     
-
     const handleNoteCancel = () => {
       setModalNoteVisible(false);
+      
     };
   
   
@@ -76,8 +76,6 @@ export function AddNewButton() {
       setModalTagVisible(false);
     };
   
-
-
 
     const handleFileChange = async (event) => {
 
@@ -95,9 +93,6 @@ export function AddNewButton() {
         formData.append('files', files[i]);
       }
 
-
-
-
   
       try {
         const response = await axios.post('http://127.0.0.1:7688/upload', formData, {
@@ -110,6 +105,7 @@ export function AddNewButton() {
         const result = response.data.result;
 
         setFilelist(result);
+        setflash(!flash);
 
 
 
@@ -200,13 +196,13 @@ export function AddNewButton() {
               onChange={handleFileChange}
             />
 
-              <ManuallyAddNoteForm visible={modalNoteVisible} handleCancel={handleNoteCancel} />
+              <ManuallyAddNoteForm visible={modalNoteVisible} handleCancel={handleNoteCancel} flash={flash} setflash={setflash}  />
   
-              <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel} />
+              <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel}  flash={flash} setflash={setflash}  />
 
-              <DocumentSearch visible={AgxivVisible} setVisible={setAgxivVisible} />
+              <DocumentSearch visible={AgxivVisible} setVisible={setAgxivVisible}  flash={flash} setflash={setflash} />
               
-              <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/>
+              <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}  flash={flash} setflash={setflash} />
               {/* <AF visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/> */}
 
 

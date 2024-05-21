@@ -2,13 +2,18 @@ import React, { useState } from 'react';
 import { Table, Menu, Dropdown, Modal, message , theme} from 'antd';
 import NotReference_Page from './not_references';
 import ReactDOM from 'react-dom';
+import { deleteNote, deleteRef } from '../services/DeleteNode';
+import { EditPaperForm, EditNoteForm  } from './EditForm';
+
 // import {}
 
 // TODO 
 // 这里根据Content 获取All\ Reference \ Note ;  根据selectedValues 获取对应的tag
-export default function ReferenceTable(references, Content,selectedValues)  {
+export default function ReferenceTable(references, Content,selectedValues ,  flash ,setflash)  {
   
    const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
+
+
 
     const handleTableChange = (pagination, filters, sorter) => {
         // 当分页、排序、筛选变化时，触发此函数
@@ -104,18 +109,35 @@ export default function ReferenceTable(references, Content,selectedValues)  {
       const [visibleMenu, setVisibleMenu] = useState(false);
       const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
       const [currentRecord, setCurrentRecord] = useState(null); // 状态来存储当前行的数据
+      const [init_document_list , setinit_document_list] = useState([]);
+
+      const [VizPaperEditMenuV, setVizPaperEditMenuV] = useState(false);
+      const [VizNoteEditMenuV, setVizNoteEditMenuV] = useState(false); 
     
-      const handleDelete = () => {
+      const handleDelete = async () => {
         // 在这里实现删除逻辑，例如调用API或更新状态
         console.log('Deleting record', currentRecord); // 打印或处理当前行数据
 
-        
+        if(Content === 'Notebook')
+          {
+            await deleteNote(currentRecord['title']);
+            console.log("DONE Note Delete:", currentRecord['title']);    
+            
+          }
+        else
+        {
+          await deleteRef(currentRecord['title']);
+          console.log("DONE Paper Delete:", currentRecord['title']);
+ 
+        }
 
-        
+        // console.log("FL:", falsh);
+        // toggleFlash() ;
+        setflash(!flash);
 
-        
+        // console.log("After FL:", falsh);  
 
-
+ 
         message.success('记录已删除'); // 可以展示一个消息确认删除
 
 
@@ -123,11 +145,44 @@ export default function ReferenceTable(references, Content,selectedValues)  {
         // 此处应更新引用数据，从references数组中移除已删除项
       };
 
+      const VizEditMenu = () => {
+        console.log("In Edit Viz: " , Content);
+
+        if(Content === "Paper")
+          {
+            setVizPaperEditMenuV(true);
+            setinit_document_list(currentRecord)
+    
+            setVisibleMenu(false);
+          }
+          else
+          {
+            setVizNoteEditMenuV(true);
+            setinit_document_list(currentRecord)
+    
+            setVisibleMenu(false);
+          }
+        // console.log("init record in EditMenu:" , currentRecord);
+
+        // console.log("Vis Menu in EditMenu:" , visibleMenu);
+
+        
+      }
+    
+
+
+      const handleCancel_EditMenu = () => {
+        setVizPaperEditMenuV(false);
+      }
+
+      const handleCancel_NoteEditMenu = () => {
+        setVizNoteEditMenuV(false);
+      }
 
       const menu = (
         <Menu items={[
             { key: '1', label: '删除' , onClick: handleDelete },
-            { key: '2', label: '修改' }
+            { key: '2', label: '修改' , onClick: VizEditMenu }
           ]}
         />
       );
@@ -170,6 +225,9 @@ export default function ReferenceTable(references, Content,selectedValues)  {
       onRow={onRow}
  
     />
+
+    <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list}/>
+    <EditNoteForm visible={VizNoteEditMenuV}   handleCancel={handleCancel_NoteEditMenu} initValue={init_document_list}/>
     </>
 
   );

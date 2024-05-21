@@ -8,7 +8,7 @@ import AppMenu from '../componets/mid_menu';
 const { Header, Content, Footer, Sider } = Layout;
 
 
-export default function LibraryPage({setContent,setSelectedValues })
+export default function LibraryPage({setContent,setSelectedValues, flash , setflash })
 {
     const {
         token: { colorBgContainer},
@@ -22,7 +22,7 @@ export default function LibraryPage({setContent,setSelectedValues })
         <Sider width={200} style={{ background: '#fff' }}>
         <div style={{ padding: '10px', borderBottom: '1px solid #e8e8e8' }}>
         
-        <AddNewButton />
+        <AddNewButton flash={flash} setflash={setflash} />
         </div>
         <AppMenu setContent={setContent} setSelectedValues={setSelectedValues} />
 
