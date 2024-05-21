@@ -2,6 +2,49 @@ import {Form, useLoaderData} from "react-router-dom";
 import { Neo4jAsk } from "./neo4jService";
 
 
+function check_date(node, startDate, endDate) {
+    // 如果startDate和endDate都是undefined，直接返回true
+    if (startDate === "undefined") {
+        return true;
+    }
+    
+
+    // 解码并转换startDate和endDate
+    const decodedStartDate = startDate ? decodeURIComponent(startDate) : undefined;
+    const decodedEndDate = endDate ? decodeURIComponent(endDate) : undefined;
+
+    // 创建Date对象，将时间设置为开始日期的00:00:00，结束日期的23:59:59
+    const start = decodedStartDate ? new Date(decodedStartDate) : undefined;
+    const end = decodedEndDate ? new Date(decodedEndDate) : undefined;
+
+    if (start) start.setHours(23, 59, 59, 999);  // 设置开始时间为00:00:00
+    if (end) end.setHours(23, 59, 59, 999); // 设置结束时间为23:59:59
+
+    end.setDate(end.getDate()+1);
+
+    // 获取build_time并转换为Date对象
+    if (!node.properties || !node.properties.build_time) {
+        console.log("Node does not have a build_time property.");
+        return false;
+    }
+
+    const buildTime = node.properties.build_time;
+    const buildDate = new Date(buildTime);
+
+    // 检查buildDate的有效性
+    if (isNaN(buildDate.getTime())) {
+        console.log("Invalid build_time format:", buildTime);
+        return false;
+    }
+
+    // 检查日期范围
+    const flag = (!start || buildDate >= start) && (!end || buildDate <= end);
+    console.log("time check output", buildTime, start, end, flag)
+
+    return flag
+}
+
+
 // TODO load 对应tag和 class的data
 export async function loader(selectedValues, Content){
 
@@ -20,6 +63,7 @@ export async function loader(selectedValues, Content){
         const query = `
             MATCH (n:Note)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
             RETURN DISTINCT n
+            ORDER BY n.build_time DESC
             `;
         const result = await Neo4jAsk(query, {tag : cur_tag})
         console.log("in dataloader, select values:",  result);
@@ -38,27 +82,21 @@ export async function loader(selectedValues, Content){
         const query = `
             MATCH (p:Paper)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
             RETURN DISTINCT p
+            ORDER BY p.build_time DESC
             `;
         const result = await Neo4jAsk(query, {tag : cur_tag})
         console.log("in dataloader, select values:",  result);
         reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
             // console.log(node.properties);
-            if (typeof(node.properties.year) == "string") {
-                return {
-                    title: node.properties.title,
-                    year: parseInt(node.properties.year),
-                    source: node.properties.journal,
-                    path: node.properties.path,
+            const year = typeof(node.properties.year) === "string"
+                     ? parseInt(node.properties.year)
+                     : node.properties.year.toInt();
+            return {
+                        title: node.properties.title,
+                        year: year,
+                        source: node.properties.journal,
                     };
-                    }
-                    else {
-                    return {
-                    title: node.properties.title,
-                    year: node.properties.year.toInt(),
-                    source: node.properties.journal,
-                    };
-                    }
         })
     }
 
@@ -90,17 +128,11 @@ export async function searcher(selectedValues, Content, requestData){
 
     if (Content === "Notebook")
     {
-        if (requestData.searchField === "undefined") {
-            query = `
-            MATCH (n:Note)
-            RETURN n
-            `;
-            params = {};
-        }
-        else if (requestData.searchField === "Tag") {
+        if (requestData.searchField === "Tag") {
             query = `
             MATCH (n:Note)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
             RETURN DISTINCT n
+            ORDER BY n.build_time DESC
             `;
             params = {tag : requestData.searchValue};
         }
@@ -108,8 +140,17 @@ export async function searcher(selectedValues, Content, requestData){
             query = `
             MATCH (n:Note) WHERE n.name=~$name
             RETURN DISTINCT n
+            ORDER BY n.build_time DESC
             `;
             params = {name : `(?i).*${requestData.searchValue}.*`};
+        }
+        else {
+            query = `
+            MATCH (n:Note)
+            RETURN n
+            ORDER BY n.build_time DESC
+            `;
+            params = {};
         }
 
 
@@ -126,17 +167,11 @@ export async function searcher(selectedValues, Content, requestData){
         })
     }
     else{
-    if (requestData.searchField === "undefined") {
-        query = `
-        MATCH (p:Paper)
-        RETURN p
-        `;
-        params = {};
-    }
-    else if (requestData.searchField === "Tag") {
+    if (requestData.searchField === "Tag") {
         query = `
         MATCH (p:Paper)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
         RETURN DISTINCT p
+        ORDER BY p.build_time DESC
         `;
         params = {tag : requestData.searchValue};
     }
@@ -145,6 +180,7 @@ export async function searcher(selectedValues, Content, requestData){
         MATCH (p:Paper)-[:WRITTEN_BY]->(a:Author)
         WHERE a.name =~ $author
         RETURN DISTINCT p
+        ORDER BY p.build_time DESC
         `;
         params = {author : `(?i).*${requestData.searchValue}.*`};
     }
@@ -152,28 +188,32 @@ export async function searcher(selectedValues, Content, requestData){
         query = `
         MATCH (p:Paper) WHERE p.title=~$title
         RETURN DISTINCT p
+        ORDER BY p.build_time DESC
         `;
         params = {title : `(?i).*${requestData.searchValue}.*`};
     }
+    else {
+        query = `
+        MATCH (p:Paper)
+        RETURN p
+        ORDER BY p.build_time DESC
+        `;
+        params = {};
+    }
 
     const result = await Neo4jAsk(query, params)
-    reference_list = result.map(record => {
+    reference_list = result
+        .filter(record => check_date(record.get("p"), requestData.startDate, requestData.endDate))
+        .map(record => {
             const node = record.get('p');  // 获取节点
-            // console.log(node.properties);
-            if (typeof(node.properties.year) == "string") {
-                return {
-                    title: node.properties.title,
-                    year: parseInt(node.properties.year),
-                    source: node.properties.journal,
-                };
-            }
-            else {
-                return {
-                    title: node.properties.title,
-                    year: node.properties.year.toInt(),
-                    source: node.properties.journal,
-                };
-            }
+            const year = typeof(node.properties.year) === "string"
+                     ? parseInt(node.properties.year)
+                     : node.properties.year.toInt();
+            return {
+                        title: node.properties.title,
+                        year: year,
+                        source: node.properties.journal,
+                    };
         })
     };
     

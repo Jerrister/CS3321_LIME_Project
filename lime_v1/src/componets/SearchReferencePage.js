@@ -49,7 +49,8 @@ function useRequestDataFromPath() {
 
 export default function SearchPage({Content, selectedValues,setContent, setSelectedValues}) {
 
-    console.log("SearchPage Called!")
+    console.log("SearchPage Called!");
+    const location = useLocation();
 
     const requestData = useRequestDataFromPath();
 
@@ -70,7 +71,7 @@ export default function SearchPage({Content, selectedValues,setContent, setSelec
               ['reference_list', []]
             ])); // 设置默认或错误状态
         });
-    }, [selectedValues, Content]);
+    }, [selectedValues, Content, location]);
 
     console.log("ref data:", refData);
 
