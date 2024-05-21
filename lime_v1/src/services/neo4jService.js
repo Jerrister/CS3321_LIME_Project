@@ -19,7 +19,7 @@ export default driver
   // });
 export async function Neo4jAsk(query, params = {}) {
    
-  const session = driver.session({ database: 'neo4j' });  // 暂时修改为 lime 
+  const session = driver.session({ database: 'lime' });  // 暂时修改为 lime 
   try {
       // 执行Cypher查询
       const result = await session.run(query, params);

@@ -42,10 +42,10 @@ function getItem(label, key, icon,children) {
 const MenuItems = [
 
   getItem('Library', '1', <FileOutlined />),
-  getItem('Notebook', '2', <EditOutlined />),
+  // getItem('Notebook', '2', <EditOutlined />),
   getItem('Log', 'sub1', <LineChartOutlined />),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
+  // getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+  // getItem('Files', '9', <FileOutlined />),
 ];
 
 
