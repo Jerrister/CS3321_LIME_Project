@@ -1,6 +1,7 @@
 import { Button, Checkbox, Form, Input , Modal ,Space, List, Spin, message} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect } from 'react';
+import { modifyNotebook, modifyPaper } from '../services/ModifyNode';
 
 // import { AddTag } from '../services/neo4jadd';
 
@@ -10,46 +11,85 @@ const onFinishFailed = (errorInfo) => {
 
 
 
-
-const EditPaper_onFinish = (values) =>{
-
+const EditPaper_onFinish = async (values) =>{
  console.log("EditPaper:" , values);
+//  values['title'] = values['title'];
+//  values['year'] = values['year'][0];
+ console.log("path :" , values['path'] );
+ console.log('path: ' , typeof(values['path'])  === 'undefined');
 
+ if (typeof(values['path'])  === 'undefined')
+    {
+        values['path'] = '';
+    }
+
+
+ values['journal'] = values["Journal"];
+//  console.log( values['year'][0]);
+ await modifyPaper(values["init_title"], values);
+ window.location.reload();
 //  调用后端接口
 //  change_paper(values["init_title"], values);
-
- return 
+//  return 
 
 }
 
 
-const EditNote_onFinish = (values) =>{
+const EditNote_onFinish = async (values) =>{
 
     console.log("EditNote:" , values);
+
+    values['name'] = values['title']
+
    
+    if (typeof(values['path'])  === 'undefined')
+        {
+            values['path'] = '';
+        }
+
+     values['journal'] = values["Journal"];
+    //  console.log( values['year'][0]);
+    await modifyNotebook(values["init_title"], values);
+    
+    window.location.reload();
    //  调用后端接口
-   //  change_note(values["init_title"], values);
-   
-    return 
+//    values['']
+//     change_note(values["init_title"], values);
    
    }
   
 
 export  function EditPaperForm({visible , handleCancel, initValue}) {
 
-    // const [form] = Form.useForm();
+    const [form] = Form.useForm();
 
+    // console.log("In Paper Edit:" , initValue)
 
-    
     console.log("in editPaperform initValue :" , initValue);
 
     const search_tag_list = ['Initial Tag', 'Tag1'];
     const author_list = ["Author1", "Author2"];
 
+    useEffect(() =>{
+
+        console.log("set title in effect:", initValue['title']);
+        form.setFieldValue('title',initValue['title']);
+        form.setFieldValue('init_title',initValue['title']);
+
+        // 调用一下search方法
+        const search_tag_list = ['Initial Tag', 'Tag1'];
+        const author_list = ["Author1", "Author2"];
+        
+
+        form.setFieldValue('authors',author_list);
+        form.setFieldValue('Journal',initValue['source']);
+        form.setFieldValue('year',initValue['year']);
+        form.setFieldValue('path',initValue['path']);
+
+
+    },[initValue]);
+
     
-
-
-
 
     return (
         <Modal
@@ -60,22 +100,22 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
 
       >
         <Form
-        // form = {form}
+        form = {form}
         name="basic"
         layout='vertical'
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 20 }}
         style={{ maxWidth: 600 }}
-        initialValues={{ 
-            remember: true,
-            title: initValue['title'],
-            year: initValue['year'],
-            Journal: initValue['source'],
-            path: initValue['path'],
-            tag: search_tag_list,
-            authors: author_list,
-            init_title:  initValue['title']
-          }}
+        // initialValues={{ 
+        //     remember: true,
+        //     // title: ,
+        //     // year: ,
+        //     // Journal: initValue['source'],
+        //     // path: initValue['path'],
+        //     // tag: search_tag_list,
+        //     // authors: author_list,
+        //     // init_title:  initValue['title']
+        //   }}
         onFinish={EditPaper_onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -84,6 +124,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
           label="Title"
           name="title"
           rules={[{ required: true, message: 'Please input the title of reference' }]}
+        //   initialValue={[initValue['title']]}
         >
           <Input />
         </Form.Item>
@@ -93,7 +134,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.List
         name="authors"
         label="Author(s)"
-        initialValue={['']} // 初始化时有一个作者输入
+        // initialValue={author_list} // 初始化时有一个作者输入
         style = {{margin: "-15px 0 0 8px"}}
         
       >
@@ -148,6 +189,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.Item
           label="Year"
           name="year"
+        //   value={[initValue['year']]}
           rules={[{ required: true, message: 'Please input the title of reference' }]}
         >
           <Input />
@@ -156,7 +198,8 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.Item
           label="Path"
           name="path"
-          rules={[{ required: true, message: 'Please input the local path of reference' }]}
+        //   value={initValue['path']}
+        //   rules={[{ required: f, message: 'Please input the local path of reference' }]}
         >
           <Input />
         </Form.Item>
@@ -165,6 +208,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.Item
           label="init_title"
           name="init_title"
+        //   value={initValue['title']}
           hidden
         //   rules={[{ required: true, message: 'Please input the local path of reference' }]}
         >
@@ -176,7 +220,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.List
         name="tag"
         label="Tag(s)"
-        initialValue={['']} // 初始化时有一个作者输入
+        // initialValue={search_tag_list} // 初始化时有一个作者输入
         style = {{margin: "-15px 0 0 8px"}}
         
       >
@@ -242,7 +286,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
 
 export  function EditNoteForm({visible , handleCancel, initValue}) {
 
-    // const [form] = Form.useForm();
+    const [form] = Form.useForm();
 
 
     
@@ -253,6 +297,20 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
 
     
 
+    useEffect(() =>{
+
+        console.log("set title in effect:", initValue['title']);
+        form.setFieldValue('title',initValue['title']);
+        form.setFieldValue('init_title',initValue['title']);
+        
+        // 调用一下search方法
+        const search_tag_list = ['Initial Tag', 'Tag1'];
+        const author_list = ["Author1", "Author2"];
+        form.setFieldValue('tag' , search_tag_list);
+        form.setFieldValue('path',initValue['path']);
+
+
+    },[initValue]);
 
 
 
@@ -265,7 +323,7 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
 
       >
         <Form
-        // form = {form}
+        form = {form}
         name="basic"
         layout='vertical'
         labelCol={{ span: 8 }}

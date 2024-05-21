@@ -96,6 +96,7 @@ export async function loader(selectedValues, Content){
             return {
                         title: node.properties.title,
                         year: year,
+                        path: node.properties.path,
                         source: node.properties.journal,
                     };
         })

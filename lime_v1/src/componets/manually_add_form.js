@@ -287,7 +287,7 @@ export function ManuallyAddNoteForm({visible , handleCancel}) {
     // const Paper_result = await  Neo4jAsk(note_query, { title: title,   build_time: formattedDate , path: path  });
   
     const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
-    const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Notebook {title: $title})
+    const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Note {name: $title})
     MERGE (p)-[r:BELONGS_TO]->(t) return r`
     // console.log("Notebook:" , Paper_result);
   

@@ -154,6 +154,7 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
             setinit_document_list(currentRecord)
     
             setVisibleMenu(false);
+            
           }
           else
           {
@@ -161,6 +162,7 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
             setinit_document_list(currentRecord)
     
             setVisibleMenu(false);
+            
           }
         // console.log("init record in EditMenu:" , currentRecord);
 
@@ -173,10 +175,12 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
 
       const handleCancel_EditMenu = () => {
         setVizPaperEditMenuV(false);
+        setflash(!flash);
       }
 
       const handleCancel_NoteEditMenu = () => {
         setVizNoteEditMenuV(false);
+        setflash(!flash);
       }
 
       const menu = (

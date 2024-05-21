@@ -22,9 +22,10 @@ export  async function modifyNotebook(notebookname,params)
 {
     // Arribute: name -> str
     const dele_note_query = `
-    MATCH (n:Note {name: '$notebookname'})
-    SET n.name = '$name'
+    MATCH (n:Note {name: $notebookname})
+    SET n.name = $name , n.path = $path
     `
+
 
     params.notebookname=notebookname
     const del_paper_res = await Neo4jAsk(dele_note_query, params)
@@ -37,8 +38,8 @@ export  async function modifyTag(tagname,params)
 {
     // Arribute: tag_name -> str
     const dele_note_query = `
-    MATCH (n:Tag {name: '$tagname'})
-    SET n.tag_name = '$tag_name'
+    MATCH (n:Tag {name: $tagname})
+    SET n.tag_name = $tag_name, n.path= $path
     `
 
     params.tagname=tagname
@@ -50,17 +51,21 @@ export  async function modifyTag(tagname,params)
 
 export  async function modifyPaper(papername,params)
 {
-    // Arribute: title->title journal->str year->str
+    // Arribute: title->title journal->str year->str path -> str
     const dele_note_query = `
-    MATCH (n:Paper {name: '$papername'})
-    SET n.title = '$title', n.journal = '$journal', n.year = '$year'
+    MATCH (n:Paper {title:$papername})
+    SET n.title = $title, n.journal = $journal, n.year = toInteger($year) , n.path = $path
+    return n
     `
-
+    
     params.papername=papername
+    console.log('year:' ,params.year )
     const del_paper_res = await Neo4jAsk(dele_note_query, params)
     console.log('modify Paper:', papername)
+    console.log("update :", params)
+    // console.log('modify res:' , del_paper_res)
 
-    return del_paper_res;
+    // return del_paper_res;
 }
 
 

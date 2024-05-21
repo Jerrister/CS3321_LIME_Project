@@ -1,6 +1,6 @@
 import { Neo4jAsk } from '../services/neo4jService';
 
-export  function AddPaper(values){
+export  async function AddPaper(values){
 
     const title = values["Title"];
     const Journal =  values["Journal"] ;
@@ -19,12 +19,12 @@ export  function AddPaper(values){
 
     console.log("create paper:" ,  values["Title"]);
     //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
-    const Paper_result =  Neo4jAsk(query, {Journal: Journal, title: title, year: Year,  build_time: formattedDate , path: path  });
+    const Paper_result =  await Neo4jAsk(query, {Journal: Journal, title: title, year: Year,  build_time: formattedDate , path: path  });
 
-    authors.map(a => {
-        Neo4jAsk(author_query, {  name: a  });
+    authors.map(async a => {
+        await Neo4jAsk(author_query, {  name: a  });
         console.log("create author:",  a);
-        Neo4jAsk(author_paper_query, {  name: a ,title : title });
+        await Neo4jAsk(author_paper_query, {  name: a ,title : title });
         console.log("link author:",  a ,"to paper:" , title);
         return null;
          
@@ -38,18 +38,18 @@ export  function AddPaper(values){
 
 
 
-export  function AddNote(values){
+export  async function AddNote(values){
 
   const title = values["Title"];
   const path = values["path"];
   const now = new Date();
   const formattedDate = now.toLocaleString();
 
-  const query = `CREATE (p:Notebook {  title: $title , build_time: $build_time , path: $path  })
+  const query = `CREATE (p:Note {  name: $title , build_time: $build_time , path: $path  })
   RETURN p`;
 
   //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
-  const Notebook_result =  Neo4jAsk(query, { title: title,  build_time: formattedDate , path: path  });
+  const Notebook_result =  await Neo4jAsk(query, { title: title,  build_time: formattedDate , path: path  });
 
   console.log('Success create note :', values);
 

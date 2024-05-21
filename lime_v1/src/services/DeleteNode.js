@@ -32,8 +32,8 @@ export  async function deleteRef(paper_title)
 
 export  async function deleteNote(note_title)
 {
-    const dele_note_query = `MATCH (n:Notebook)
-    WHERE n.title = $del_title
+    const dele_note_query = `MATCH (n:Note)
+    WHERE n.name = $del_title
     DETACH DELETE n
     `
     const del_paper_res = await Neo4jAsk(dele_note_query, {del_title : note_title })

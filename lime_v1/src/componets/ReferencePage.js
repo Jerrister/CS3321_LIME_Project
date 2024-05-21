@@ -14,10 +14,9 @@ import {loader as tagDataLoader } from "../services/tags";
 import { map } from 'd3';
 import { toRef, toNote } from '../services/Note2Ref';
 
-export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues }) {
+export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues , flash , setflash }) {
 
     console.log("AllSrcPage Called!")
-
 
     console.log("Content:", Content, "sV:", selectedValues)
 
@@ -25,7 +24,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
       ['reference_list', []]
     ]));
 
-    const [flash, setflash] = useState(false);
+
 
     console.log("before useEffect ref data:", refData);
 
