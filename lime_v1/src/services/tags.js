@@ -25,7 +25,7 @@ export async function loader(selectedValues, Content){
         reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
             // console.log(node.properties);
-                if (typeof(node.properties.year) == "string") {
+            if (typeof(node.properties.year) == "string") {
                 return {
                     title: node.properties.title,
                     year: parseInt(node.properties.year),
@@ -38,10 +38,9 @@ export async function loader(selectedValues, Content){
                     title: node.properties.title,
                     year: node.properties.year.toInt(),
                     source: node.properties.journal,
-                    path: node.properties.path,
                     };
                     }
-        })  
+        })
     }
     else
     {
@@ -52,29 +51,70 @@ export async function loader(selectedValues, Content){
         ]
     }
 
-
     // const reference_list = [
     //     {"title": "Title0", "year": 2022, "source":"http"  }, 
     //     {"title": "Title1", "year": 2024, "source":"http"  }, 
     //     {"title": "Title2", "year": 2023, "source":"http"  }, 
     // ]
-
-    // const reference_list = [
-    //     {"authors": "Authors_1,Authors_1,Authors_1,Authors_1,Authors_1, ", "year": 2022, "source":"http" , "file": "/" }, 
-    //     {"authors": "Authors_2", "year": 2023, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_3", "year": 2031, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_4", "year": 2019, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_5", "year": 2033, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_6", "year": 2033, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_4", "year": 2019, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_5", "year": 2033, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_6", "year": 2033, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_4", "year": 2019, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_5", "year": 2033, "source":"https" , "file": "/a" }, 
-    //     {"authors": "Authors_6", "year": 2033, "source":"https" , "file": "/a" }, 
-    // ]
-     return new Map([
+    
+    return new Map([
         ['reference_list', reference_list],
-         ['BigTag',  selectedValues[0]],
-        ]);
+        ['BigTag',  selectedValues[0]],
+      ]);
 }
+
+
+export async function searcher(selectedValues, requestData){
+
+    console.log("Params for the loader are:", selectedValues, requestData);
+
+    var query = ``;
+    var params = {};
+
+    if (requestData.searchField === "undefined") {
+        query = `
+        MATCH (p:Paper)
+        RETURN p
+        `;
+        params = {};
+    }
+    else if (requestData.searchField === "Tag") {
+        query = `
+        MATCH (p:Paper)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
+        RETURN p
+        `;
+        params = {tag : requestData.searchValue};
+    }
+    else if (requestData.searchField === "Author") {
+        query = `
+        MATCH (p:Paper)-[:WRITTEN_BY]->(a:Author {name: $author})
+        RETURN p
+        `;
+        params = {author : requestData.searchValue};
+    }
+    else if (requestData.searchField == "Title") {
+        query = `
+        MATCH (p:Paper) WHERE p.title=~title
+        RETURN p
+        `;
+        params = {title : `(?i).*${requestData.searchValue}.*`};
+    }
+
+    // const cur_tag = selectedValues[selectedValues.length-1];
+    // console.log("Selected Params for the loader are:", cur_tag);
+    // // const query = 'MATCH (p:Paper) RETURN p LIMIT 100';
+    // const query = `
+    // MATCH (p:Paper)-[:BELONGS_TO]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $tag})
+    // RETURN p
+    // `;
+    const result = await Neo4jAsk(query, params)
+    const reference_list = result.map(record => {
+            const node = record.get('p');  // 获取节点
+            // console.log(node.properties);
+            return {
+                title: node.properties.title,
+                year: node.properties.year.toInt(),
+                source: node.properties.journal,
+            };
+        })
+    }

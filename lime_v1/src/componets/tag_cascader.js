@@ -54,9 +54,6 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         navigate(`/Library/Tags/${path}`); // 使用 navigate 函数跳转到新路径
     };
 
-    // console.log("isv in cas:", InselectedValues);
-    // console.log("ops in cas:", options);
-
     return (
         <div style={{width:"656px"}}>
         <Cascader

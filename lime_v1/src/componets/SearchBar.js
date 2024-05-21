@@ -1,6 +1,6 @@
 import React , { useState } from 'react';
 import {Neo4jVisionModify} from '../services/neo4jvision';
-
+import { useNavigate } from 'react-router-dom';
 import { Input, DatePicker, Space, Select } from 'antd';
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -8,6 +8,7 @@ const { Option } = Select;
 
 
 const SearchBar = ({ InPage }) => {
+    const navigate = useNavigate();
 
     const [searchValue, setSearchValue] = useState('');
     const [selectedDates, setSelectedDates] = useState([]);
@@ -22,29 +23,16 @@ const SearchBar = ({ InPage }) => {
         endDate: selectedDates[1]
       };
 
-      // 发送请求给后端
-      fetch('/your-backend-endpoint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-        // console.log(requestData)
-      })
-      .then(response => {
-        console.log(InPage)
-        console.log(response)
-        if(InPage=='Neo4j'){
-          console.log(searchValue)
-          console.log(searchField)
-          Neo4jVisionModify(searchField,searchValue)
-        }
-        // console.log(body)
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-
+      console.log(InPage);
+      console.log(requestData);
+      // console.log(searchValue)
+      // console.log(searchField)
+      if(InPage=='Neo4j'){
+        Neo4jVisionModify(searchField,searchValue)
+      }
+      if(InPage=='TagPage'){
+        navigate(`/Library/Search/f:${requestData.searchField}-s:${requestData.searchValue}-sd:${requestData.startDate}-ed:${requestData.endDate}`); // 使用 navigate 函数跳转到新路径
+      }
     };
   
     return (
