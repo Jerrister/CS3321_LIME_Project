@@ -10,7 +10,6 @@ export  function AddPaper(values){
     const now = new Date();
     const formattedDate = now.toLocaleString();
    
-    
     const query = `CREATE (p:Paper { journal: $Journal , title: $title , year: $year , build_time: $build_time , path: $path  })
     RETURN p`;
     const author_query = `MERGE (a:Author {name: $name}) `; 
@@ -36,6 +35,8 @@ export  function AddPaper(values){
 
 }
 
+
+
 export  function AddNote(values){
 
   const title = values["Title"];
@@ -54,17 +55,39 @@ export  function AddNote(values){
 }
 
 
-export async function AddTag(tag_name, ParentTag)
+export async function AddTag(tag_name, ParentTag="All Tags")
 {
-  const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
-
-  await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
   
-  console.log("Create tag:" , tag_name);
-  const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
-  MERGE (t)-[r:IN]->(tp) return r`
-  await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
+  const find_tag_query = "MATCH (t:Tag {tag_name: $tag_name})  return t";
+  const find_res = await Neo4jAsk(find_tag_query, {tag_name : tag_name ,  }  );
+  console.log("FIND:" , find_res);
 
-  console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+  console.log("FIND BOOL:", find_res.length === 0);
+
+
+  if(find_res.length === 0)
+  {
+    const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+
+    await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
+    
+    console.log("Create tag:" , tag_name);
+    const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
+    MERGE (t)-[r:IN]->(tp) return r`
+    await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
+  
+    console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+
+  }
+
+  return (find_res.length === 0)
+
+
+
+
 }
+
+
+
+
 

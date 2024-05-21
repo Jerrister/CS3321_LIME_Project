@@ -22,7 +22,7 @@ def extract_title_and_author(pdf_path):
         return text_blocks
 
 # 使用示例
-folder_path = 'E:\\XLANCE\\TSE\\basic papers'  # 你的PDF文件路径
+folder_path =  r'C:\Users\li_jiaxin\Desktop\X-LENCE\Audio_Generation' # 你的PDF文件路径
 
 for file in os.listdir(folder_path):
     pdf_path = os.path.join(folder_path, file)

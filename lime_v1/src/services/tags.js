@@ -3,7 +3,7 @@ import { Neo4jAsk } from "./neo4jService";
 
 
 // TODO load 对应tag和 class的data
-export async function loader(selectedValues){
+export async function loader(selectedValues, Content){
 
     console.log("Params for the loader are:", selectedValues);
     const cur_tag = selectedValues[selectedValues.length-1];
@@ -14,7 +14,15 @@ export async function loader(selectedValues){
     RETURN p
     `;
     const result = await Neo4jAsk(query, {tag : cur_tag})
-    const reference_list = result.map(record => {
+    console.log("in dataloader, select values:",  result);
+
+    let reference_list = []
+    console.log("Content:" , Content);
+    console.log("Content Bool:" , Content === "Paper");
+
+    if (Content === "Paper")
+    {
+        reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
             // console.log(node.properties);
             if (typeof(node.properties.year) == "string") {
@@ -22,22 +30,39 @@ export async function loader(selectedValues){
                     title: node.properties.title,
                     year: parseInt(node.properties.year),
                     source: node.properties.journal,
-                };
-            }
-            else {
-                return {
+                    path: node.properties.path,
+                    };
+                    }
+                    else {
+                    return {
                     title: node.properties.title,
                     year: node.properties.year.toInt(),
                     source: node.properties.journal,
-                };
-            }
+                    };
+                    }
         })
+    }
+    else
+    {
+        reference_list = [
+            {"title": "Title0" , "build time": '2024/5/19 16:25:18', 'path': '/'},
+            {"title": "Title1" , "build time": '2024/5/19 16:25:19', 'path': '/'},
+            {"title": "Title2" , "build time": '2024/5/19 16:25:17', 'path': '/'},
+        ]
+    }
+
+    // const reference_list = [
+    //     {"title": "Title0", "year": 2022, "source":"http"  }, 
+    //     {"title": "Title1", "year": 2024, "source":"http"  }, 
+    //     {"title": "Title2", "year": 2023, "source":"http"  }, 
+    // ]
     
     return new Map([
         ['reference_list', reference_list],
         ['BigTag',  selectedValues[0]],
       ]);
 }
+
 
 export async function searcher(selectedValues, requestData){
 
@@ -102,16 +127,4 @@ export async function searcher(selectedValues, requestData){
                 };
             }
         })
-
-    // const reference_list = [
-    //     {"title": "Title0", "year": 2022, "source":"http"  }, 
-    //     {"title": "Title1", "year": 2024, "source":"http"  }, 
-    //     {"title": "Title2", "year": 2023, "source":"http"  }, 
-    // ]
-    
-    return new Map([
-        ['reference_list', reference_list],
-        ['BigTag',  selectedValues[0]],
-      ]);
-}
-
+    }

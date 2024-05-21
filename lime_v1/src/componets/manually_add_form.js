@@ -1,13 +1,13 @@
 import React, {useEffect, useState, useReducer} from 'react';
-import { Button, Checkbox, Form, Input , Modal ,Space, List, Spin} from 'antd';
+import { Button, Checkbox, Form, Input , Modal ,Space, List, Spin, message} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 // import { Neo4jAsk } from "./neo4jService";
 import { Neo4jAsk } from '../services/neo4jService';
-import { AddPaper } from '../services/neo4jadd';
+import { AddNote, AddPaper, AddTag } from '../services/neo4jadd';
 // import TagCascader_F from './tag_cascader';
 import AllSrcPage from './ReferencePage';
 import TagCascader_Form from './tag_cascader_form';
-
+// import { AddTag } from '../services/neo4jadd';
 
 const  onFinish = async (values) => {
 
@@ -15,47 +15,60 @@ const  onFinish = async (values) => {
   const Journal = values['Journal'];
   const Year = values["Year"];
   const authors = values["authors"];
-  const tags = values["tag"];
+
   const path = values["Path"];
+  values["path"] = values["Path"];
+
+
+  const tags = values["tag"];
 
   const now = new Date();
   const formattedDate = now.toLocaleString();
   // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
-  const query = `CREATE (p:Paper { journal: $Journal , title: $title , year: $year , build_time: $build_time , path: $path  })
-       RETURN p`;
 
-      //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
-  const Paper_result = await Neo4jAsk(query, {Journal: Journal, title: title, year: Year,  build_time: formattedDate , path: path  });
+  AddPaper(values);
 
-  const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+
+
+  // const query = `CREATE (p:Paper { journal: $Journal , title: $title , year: $year , build_time: $build_time , path: $path  })
+  //      RETURN p`;
+
+  //     //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
+  // const Paper_result = await Neo4jAsk(query, {Journal: Journal, title: title, year: Year,  build_time: formattedDate , path: path  });
+
+
+  // const author_query = `MERGE (a:Author {name: $name}) `; 
+  // const author_paper_query = `MATCH (a:Author {name: $name}), (p:Paper {title: $title}) 
+  //  MERGE (p)-[r:WRITEN_BY]->(a)  return r`
+
+  
+
+
+  // authors.map(async a => {
+  //   await Neo4jAsk(author_query, {  name: a  });
+  //   console.log("create author:",  a);
+  //   await Neo4jAsk(author_paper_query, {  name: a ,title : title });
+  //   console.log("link author:",  a ,"to paper:" , title);
+  // }
+     
+  // )
+
+
+  // const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
   const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Paper {title: $title})
   MERGE (p)-[r:BELONGS_TO]->(t) return r`
-  console.log("Paper:" , Paper_result);
+  // console.log("Paper:" , Paper_result);
 
-  const author_query = `MERGE (a:Author {name: $name}) `; 
-  const author_paper_query = `MATCH (a:Author {name: $name}), (p:Paper {title: $title}) 
-   MERGE (p)-[r:WRITEN_BY]->(a)  return r`
-
-
-  tags.map(async element => {
-    console.log("create tag:",  element);
-    await Neo4jAsk(tag_query, {tag_name: element  });
-    console.log("link tag:", element, " to paper:" , title);
-    await Neo4jAsk(tag_paper_link , {tag_name: element , title: title });
-  
-    // console.log(element); // 执行某些操作
-    return element; // 即使你不使用返回的数组，也需要返回值
+ tags.map(async element => {
+  AddTag(element);
+  //  console.log("create tag:",  element);
+  //  await Neo4jAsk(tag_query, {tag_name: element  });
+   console.log("link tag:", element, " to paper:" , title);
+   await Neo4jAsk(tag_paper_link , {tag_name: element , title: title });
+ 
+   // console.log(element); // 执行某些操作
+   return element; // 即使你不使用返回的数组，也需要返回值
 });
-
-  authors.map(async a => {
-    await Neo4jAsk(author_query, {  name: a  });
-    console.log("create author:",  a);
-    await Neo4jAsk(author_paper_query, {  name: a ,title : title });
-    console.log("link author:",  a ,"to paper:" , title);
-  }
-     
-  )
-
 
   console.log('Success:', values);
 };
@@ -95,27 +108,32 @@ async function  onFinish_note(values)  {
   // const Year = values["Year"];
   // const authors = values["authors"];
   const tags = values["tag"];
-  const path = values["Path"];
+  values["path"] = values["Path"];
 
-  const now = new Date();
-  const formattedDate = now.toLocaleString();
-  // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
-  const note_query = `CREATE (p:Notebook {  title: $title , build_time: $build_time , path: $path  })
-       RETURN p`;
+  AddNote(values);
+
+  // const now = new Date();
+  // const formattedDate = now.toLocaleString();
+  // // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
+  // const note_query = `CREATE (p:Notebook {  title: $title , build_time: $build_time , path: $path  })
+  //      RETURN p`;
 
       //  `CREATE (p:Paper {journal: $journal, title: $title, year: $year, authors: $authors, tags: $tags}) RETURN p`
-  const Paper_result = await  Neo4jAsk(note_query, { title: title,   build_time: formattedDate , path: path  });
+  // const Paper_result = await  Neo4jAsk(note_query, { title: title,   build_time: formattedDate , path: path  });
 
   const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
   const tag_paper_link = `MATCH (t:Tag {tag_name: $tag_name}), (p:Notebook {title: $title})
   MERGE (p)-[r:BELONGS_TO]->(t) return r`
-  console.log("Notebook:" , Paper_result);
+  // console.log("Notebook:" , Paper_result);
+
+
 
 
 
   tags.map(async element => {
+    AddTag(element);
     console.log("create tag:",  element);
-    await Neo4jAsk(tag_query, {tag_name: element  });
+    // await Neo4jAsk(tag_query, {tag_name: element  });
     console.log("link tag:", element, " to notebook:" , title);
     await Neo4jAsk(tag_paper_link , {tag_name: element , title: title });
   
@@ -155,17 +173,35 @@ async function  onFinish_tag(values)  {
   
   // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
 
-  const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+  // const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
 
-  await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
+  // await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
   
-  console.log("Create tag:" , tag_name);
-  const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
-  MERGE (t)-[r:IN]->(tp) return r`
-  await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
+  // console.log("Create tag:" , tag_name);
+  // const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
+  // MERGE (t)-[r:IN]->(tp) return r`
+  // await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
 
 
-  console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+  // console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+
+  const AddSuccess = AddTag(tag_name, ParentTag);
+
+  // console.log("ADD SUCC:" , AddSuccess.result);
+
+  AddSuccess.then((result) =>
+    {
+      if(result)
+        {
+          message.success("Success: Add Tag " + tag_name)
+        }
+        else
+        {
+          message.error("Failed: Tag " + tag_name +  " have existed!" );
+        }
+    }
+  )
+
 
 
   // const [, forceUpdate] = useReducer(x => x + 1, 0);
