@@ -19,7 +19,7 @@ export function AddNewButton() {
 
   const [modalTagVisible, setModalTagVisible] = useState(false);
 
-  const [AgxivVisible, setAgxivVisible] = useState(false);
+  const [ArxivVisible, setArxivVisible] = useState(false);
 
   const [Filelist, setFilelist] = useState([]);
 
@@ -45,7 +45,7 @@ export function AddNewButton() {
       setModalNoteVisible(true);
     }
     if(e.key === '3'){
-      setAgxivVisible(true);
+      setArxivVisible(true);
       // FolderImporter();
     }
     if(e.key === '7'){
@@ -153,7 +153,7 @@ export function AddNewButton() {
           </Menu.SubMenu> */}
       
           {/* <Menu.Item key="4">Watch folder...</Menu.Item> */}
-          <Menu.Item key="3"> Add  reference from Agxiv </Menu.Item>
+          <Menu.Item key="3"> Add  reference from Arxiv </Menu.Item>
           <Menu.Item key="4"> Add  reference from folder </Menu.Item>
           <Menu.Item key="5">Add reference manually</Menu.Item>
           <Menu.Item key="6">Add notebook manually</Menu.Item>
@@ -204,7 +204,7 @@ export function AddNewButton() {
   
               <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel} />
 
-              <DocumentSearch visible={AgxivVisible} setVisible={setAgxivVisible} />
+              <DocumentSearch visible={ArxivVisible} setVisible={setArxivVisible} />
               
               <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/>
               {/* <AF visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/> */}
