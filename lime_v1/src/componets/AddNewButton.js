@@ -19,7 +19,7 @@ export function AddNewButton(flash , setflash) {
 
   const [modalTagVisible, setModalTagVisible] = useState(false);
 
-  const [AgxivVisible, setAgxivVisible] = useState(false);
+  const [ArxivVisible, setArxivVisible] = useState(false);
 
   const [Filelist, setFilelist] = useState([]);
 
@@ -45,7 +45,7 @@ export function AddNewButton(flash , setflash) {
       setModalNoteVisible(true);
     }
     if(e.key === '3'){
-      setAgxivVisible(true);
+      setArxivVisible(true);
       // FolderImporter();
     }
     if(e.key === '7'){
@@ -149,7 +149,7 @@ export function AddNewButton(flash , setflash) {
           </Menu.SubMenu> */}
       
           {/* <Menu.Item key="4">Watch folder...</Menu.Item> */}
-          <Menu.Item key="3"> Add  reference from Agxiv </Menu.Item>
+          <Menu.Item key="3"> Add  reference from Arxiv </Menu.Item>
           <Menu.Item key="4"> Add  reference from folder </Menu.Item>
           <Menu.Item key="5">Add reference manually</Menu.Item>
           <Menu.Item key="6">Add notebook manually</Menu.Item>
@@ -196,13 +196,13 @@ export function AddNewButton(flash , setflash) {
               onChange={handleFileChange}
             />
 
-              <ManuallyAddNoteForm visible={modalNoteVisible} handleCancel={handleNoteCancel} flash={flash} setflash={setflash}  />
+              <ManuallyAddNoteForm visible={modalNoteVisible} handleCancel={handleNoteCancel}  />
   
-              <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel}  flash={flash} setflash={setflash}  />
+              <ManuallyAddTagForm visible={modalTagVisible} handleCancel={handleTagCancel}  />
 
-              <DocumentSearch visible={AgxivVisible} setVisible={setAgxivVisible}  flash={flash} setflash={setflash} />
+              <DocumentSearch visible={ArxivVisible} setVisible={setArxivVisible}  />
               
-              <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}  flash={flash} setflash={setflash} />
+              <CheckpointForm visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}   />
               {/* <AF visible={checkFileVisible} handleCancel={handlFilesCancel} Filelist={Filelist} handleFilelist={setFilelist}/> */}
 
 
