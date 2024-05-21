@@ -62,14 +62,15 @@ export async function searcher(selectedValues, requestData){
     }
     else if (requestData.searchField === "Author") {
         query = `
-        MATCH (p:Paper)-[:WRITTEN_BY]->(a:Author {name: $author})
+        MATCH (p:Paper)-[:WRITTEN_BY]->(a:Author)
+        WHERE a.name =~ $author
         RETURN p
         `;
-        params = {author : requestData.searchValue};
+        params = {author : `(?i).*${requestData.searchValue}.*`};
     }
     else if (requestData.searchField == "Title") {
         query = `
-        MATCH (p:Paper) WHERE p.title=~title
+        MATCH (p:Paper) WHERE p.title=~$title
         RETURN p
         `;
         params = {title : `(?i).*${requestData.searchValue}.*`};
@@ -86,11 +87,20 @@ export async function searcher(selectedValues, requestData){
     const reference_list = result.map(record => {
             const node = record.get('p');  // 获取节点
             // console.log(node.properties);
-            return {
-                title: node.properties.title,
-                year: node.properties.year.toInt(),
-                source: node.properties.journal,
-            };
+            if (typeof(node.properties.year) == "string") {
+                return {
+                    title: node.properties.title,
+                    year: parseInt(node.properties.year),
+                    source: node.properties.journal,
+                };
+            }
+            else {
+                return {
+                    title: node.properties.title,
+                    year: node.properties.year.toInt(),
+                    source: node.properties.journal,
+                };
+            }
         })
 
     // const reference_list = [
