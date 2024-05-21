@@ -4,6 +4,7 @@ import { Neo4jAsk } from "./neo4jService";
 
 function check_date(node, startDate, endDate) {
     // 如果startDate和endDate都是undefined，直接返回true
+    console.log("time check input", startDate, endDate);
     if (startDate === "undefined") {
         return true;
     }
@@ -156,13 +157,15 @@ export async function searcher(selectedValues, Content, requestData){
 
         const result = await Neo4jAsk(query, params)
         console.log("in dataloader, select values:",  result);
-        reference_list = result.map(record => {
+        reference_list = result
+            .filter(record => check_date(record.get("n"), requestData.startDate, requestData.endDate))
+            .map(record => {
             const node = record.get('n');  // 获取节点
             // console.log(node.properties);
             return {
                 title: node.properties.name,
                 path: node.properties.path,
-                "build time": "2024/05/21 10:36:30",
+                "build time": node.properties.build_time
                 };
         })
     }
