@@ -12,6 +12,7 @@ import Title_form from './Title_Form';
 import { useLocation } from 'react-router-dom';
 import {loader as tagDataLoader } from "../services/tags";
 import { map } from 'd3';
+import { toRef, toNote } from '../services/Note2Ref';
 
 export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues}) {
 
@@ -39,7 +40,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
     // const reference_list = refData.get("reference_list") || []
     useEffect(() => {
       console.log("Before Loader, selectedValues :", selectedValues)
-        tagDataLoader(selectedValues).then(setRefData).catch(error => {
+        tagDataLoader(selectedValues,Content).then(setRefData).catch(error => {
             console.error('Failed to fetch options:', error);
             setRefData(new Map([
               ['reference_list', []]
@@ -47,7 +48,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
         });
         console.log("after load refdata:", refData );
         console.log("in loading, selectedValues:",  selectedValues);
-    }, [selectedValues]);
+    }, [selectedValues, Content]);
 
     console.log("ref data:", refData);
 
@@ -60,7 +61,6 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
 
    console.log("page r_l:", reference_list);
   
-
   //  console.log(reference_list);
   //  console.log(Content);
     
@@ -73,7 +73,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
     // const [selectedValues, setSelectedValues] = useState(BigTag);
 
 
-    console.log(selectedValues);
+    console.log("select Values: ",selectedValues);
 
     return (
         <>
@@ -83,13 +83,13 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
 
       <div style={{ flex: 1, textAlign: 'right' }}> {/* 使用 Flex 布局，占据剩余空间并右对齐 */}
 
-      <Row justify="end"  style={{padding: '0 0 0 14px' , width:"328px" }} >
+      <Row justify="end"  style={{padding: '0 0 0 14px' , width:"278px" }} >
         <Col>
    
         <Radio.Group value={Content} onChange={e => setContent(e.target.value)} type="primary"  style={{ marginRight: '8px' }}>
-        <Radio.Button value="All">All</Radio.Button>
-        <Radio.Button value="Reference">Reference</Radio.Button>
-        <Radio.Button value="Notebook">Notebook</Radio.Button>
+        {/* <Radio.Button value="All">All</Radio.Button> */}
+        <Radio.Button value="Paper" >Paper</Radio.Button>
+        <Radio.Button value="Notebook" >Notebook</Radio.Button>
 
       </Radio.Group>
       </Col>

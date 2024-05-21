@@ -27,7 +27,7 @@ import Neo4_VizPage from './componets/Neo4_VisPage';
 
 function App() {
   
-  const [Content, setContent] = useState("All");
+  const [Content, setContent] = useState("Paper");
 
   const [selectedValues, setSelectedValues] = useState(["All Tags"]);
   console.log("Current Selected Values", selectedValues);
