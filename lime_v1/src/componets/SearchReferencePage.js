@@ -49,11 +49,14 @@ function useRequestDataFromPath() {
 
 export default function SearchPage({Content, selectedValues,setContent, setSelectedValues}) {
 
-    console.log("SearchPage Called!")
+    console.log("SearchPage Called!");
+    const location = useLocation();
 
     const requestData = useRequestDataFromPath();
 
     console.log("Search Request:", requestData);
+    console.log("Content:" , Content);
+    console.log("Content Bool:" , Content === "Paper");
 
     const [refData, setRefData] = useState(new Map([
       ['reference_list', []]
@@ -61,13 +64,14 @@ export default function SearchPage({Content, selectedValues,setContent, setSelec
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
     useEffect(() => {
-        tagSearcher(selectedValues, requestData).then(setRefData).catch(error => {
+      console.log("searcher called!")
+        tagSearcher(selectedValues, Content, requestData).then(setRefData).catch(error => {
             console.error('Failed to fetch options:', error);
             setRefData(new Map([
               ['reference_list', []]
             ])); // 设置默认或错误状态
         });
-    }, [selectedValues]);
+    }, [selectedValues, Content, location]);
 
     console.log("ref data:", refData);
 
@@ -110,7 +114,7 @@ export default function SearchPage({Content, selectedValues,setContent, setSelec
         <Col>
    
         <Radio.Group value={Content} onChange={e => setContent(e.target.value)} type="primary"  style={{ marginRight: '8px' }}>
-        <Radio.Button value="All">All</Radio.Button>
+        {/* <Radio.Button value="All">All</Radio.Button> */}
         <Radio.Button value="Reference">Reference</Radio.Button>
         <Radio.Button value="Notebook">Notebook</Radio.Button>
 
