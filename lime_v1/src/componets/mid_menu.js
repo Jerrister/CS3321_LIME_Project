@@ -159,6 +159,7 @@ import React, { useState, useEffect } from 'react';
 import { Menu, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import getBigTags from "../services/get_big_tags";
+import { deleteTag } from '../services/DeleteNode';
 
 export default function AppMenu({ setContent, setSelectedValues }) {
     const [BigTags, setBigTags] = useState([]);
@@ -194,8 +195,9 @@ export default function AppMenu({ setContent, setSelectedValues }) {
         setSelectedValues([tag]);
     };
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         console.log('Deleting tag:', currentTag);
+        await deleteTag(currentTag)
         setVisibleMenu(false);
     };
 

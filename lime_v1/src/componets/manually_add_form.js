@@ -533,6 +533,11 @@ export function ManuallyAddTagForm({visible , handleCancel}) {
   };
   
   async function  onFinish_tag(values)  {
+    console.log("values", values)
+
+    if (typeof values["selectedOption"] == "undefined"){
+      values["selectedOption"] = ["All Tags"]
+    }
   
     const tag_name = values["Tag_name"];
     const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];

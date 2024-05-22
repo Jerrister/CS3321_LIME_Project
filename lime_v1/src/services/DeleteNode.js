@@ -1,19 +1,18 @@
 
 import { Neo4jAsk } from '../services/neo4jService';
 
-const all_tags_id=-1;
-function get_all_tags_id()
+// var all_tags_id=-1;
+async function get_all_tags_id()
 {
-    if(all_tags_id==-1){
-        const all_tags_id_query = `
-            MATCH (tag:Tag {tag_name: 'All Tags'}) return id(tag)
+    const all_tags_id_query = `
+            MATCH (tag:Tag {tag_name: 'All Tags'}) return id(tag) as id
         `
 
-        const value = Neo4jAsk(all_tags_id_query, {});
-        all_tags_id = value
-        console.log("all_tags_id:",value)
-    }
-    else return all_tags_id;
+        const value = await Neo4jAsk(all_tags_id_query, {});
+        const all_tags_id = value
+        console.log("all_tags_id:",value, all_tags_id)
+    
+    return all_tags_id;
 }
 
 
@@ -44,7 +43,9 @@ export  async function deleteNote(note_title)
 
 export  async function deleteTag(tag_name)
 {
-    const all_tags_id=39;
+    const all_tags_id = await get_all_tags_id();
+
+    console.log("ati at delete", all_tags_id[0]["id"]);
 
     const dele_note_query = `// 1. 找到要删除的Tag及其父节点、子节点、相关的Paper和Notebook
     MATCH (parent:Tag)<-[r2:IN]-(tag:Tag {tag_name: '$del_tag_name'})
