@@ -3,12 +3,14 @@ import { Cascader, Dropdown, Menu, message } from 'antd';
 import GetOptions from '../services/get_options';
 import { useNavigate } from 'react-router-dom';
 import { deleteTag } from '../services/DeleteNode';
+import { EditTagForm } from './EditForm';
 
 export default function TagCascader({handleSelectedValues, InselectedValues}) {
     const navigate = useNavigate(); // 初始化 navigate 函数
     const [options, setOptions] = useState([]);
     const [visibleMenu, setVisibleMenu] = useState(false);
     const [currentTag, setCurrentTag] = useState(null);
+    const [VizTagEditMenuV, setVizTagEditMenuV] = useState(false);
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
     useEffect(() => {
@@ -33,8 +35,8 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
             window.location.reload();
         } else if (e.key === 'edit') {
             console.log('Editing tag:', currentTag);
-            window.location.reload();
-            // Add edit logic here
+            setVisibleMenu(false);
+            setVizTagEditMenuV(true);
         }
         setVisibleMenu(false);
     };
@@ -53,8 +55,14 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
             <Menu.Item key="edit">修改当前选中标签</Menu.Item>
         </Menu>
     );
+    
+    const handleCancel_EditMenu = () => {
+        setVizTagEditMenuV(false);
+        // setflash(!flash);
+      }
 
     return (
+        <>
         <Dropdown overlay={menu} visible={visibleMenu} onVisibleChange={setVisibleMenu} trigger={['contextMenu']}>
             <div style={{ width: "656px" }}>
                 <Cascader
@@ -70,5 +78,7 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
                 />
             </div>
         </Dropdown>
+        <EditTagForm visible={VizTagEditMenuV}   handleCancel={handleCancel_EditMenu} curtag={currentTag}/>
+        </>
     );
 }

@@ -34,17 +34,15 @@ export  async function modifyNotebook(notebookname,params)
     return del_paper_res;
 }
 
-export  async function modifyTag(tagname,params)
+export  async function modifyTag(params)
 {
     // Arribute: tag_name -> str
     const modify_tag_query = `
-    MATCH (n:Tag {name: $tagname})
-    SET n.tag_name = $tag_name
+    MATCH (n:Tag {tag_name: $this})
+    SET n.tag_name = $new
     `
-
-    params.tagname=tagname
     const mod_tag_res = await Neo4jAsk(modify_tag_query, params)
-    console.log('modify Tag:', tagname)
+    console.log('modify Tag:', params.this)
 
     return mod_tag_res;
 }

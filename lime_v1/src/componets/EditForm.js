@@ -494,35 +494,48 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
 
 
 
-export function EditTagForm({visible , handleCancel}) {
+export function EditTagForm({visible , handleCancel, curtag}) {
   const [ParentTag , SetParentTag ] = useState(["All Tags"])
+  console.log("curtag in edit tag form", curtag);
 
   const onFinishFailed_tag = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
   
   async function  onFinish_tag(values)  {
-    const tag_name = values["Tag_name"];
+
+
+    if (typeof values["selectedOption"] == "undefined"){
+      values["selectedOption"] = ["All Tags"]
+    }
+
+    console.log("values", values)
+    const new_name = values["Tag_name"];
     const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+
+    const params = {this: curtag, new : new_name, parent : ParentTag};
+
+    console.log("modify params: ", params);
   
-    const ModSuccess = modifyTag(tag_name, ParentTag);
+    const ModSuccess = modifyTag(params);
   
     // console.log("ADD SUCC:" , AddSuccess.result);
   
     ModSuccess.then((result) =>
       {
         if(result){
-            message.success("Success: Add Tag " + tag_name)
+            message.success("Successfully Edit Tag " + curtag)
           }
           else{
-            message.error("Failed: Tag " + tag_name +  " have existed!" );
+            message.error("Failed to edit: " + curtag);
           }
+          window.location.reload();
       }
     )
     // const [, forceUpdate] = useReducer(x => x + 1, 0);
     // forceUpdate();
-    if(ParentTag === "All Tags")
-      {window.location.reload();}
+    // if(ParentTag === "All Tags")
+    //   {window.location.reload();}
     // setflash(!flash);
     // console.log("Flash toogler:", toogleFlash);
     // toogleFlash();
