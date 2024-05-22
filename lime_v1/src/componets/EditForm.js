@@ -581,3 +581,214 @@ export function EditTagForm({visible , handleCancel}) {
     </Modal>
   )
 }
+
+
+
+export function EditTagForm({visible , handleCancel}) {
+  const [ParentTag , SetParentTag ] = useState(["All Tags"])
+
+  const onFinishFailed_tag = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  
+  async function  onFinish_tag(values)  {
+    const tag_name = values["Tag_name"];
+    const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+  
+    const ModSuccess = modifyTag(tag_name, ParentTag);
+  
+    // console.log("ADD SUCC:" , AddSuccess.result);
+  
+    ModSuccess.then((result) =>
+      {
+        if(result){
+            message.success("Success: Add Tag " + tag_name)
+          }
+          else{
+            message.error("Failed: Tag " + tag_name +  " have existed!" );
+          }
+      }
+    )
+    // const [, forceUpdate] = useReducer(x => x + 1, 0);
+    // forceUpdate();
+    if(ParentTag === "All Tags")
+      {window.location.reload();}
+    // setflash(!flash);
+    // console.log("Flash toogler:", toogleFlash);
+    // toogleFlash();
+    // setflash(!flash);
+  
+    console.log('Success:', values);
+  };
+  
+  return (
+      <Modal
+      title="Add notebook manually"
+      visible={visible}
+      onCancel={handleCancel}
+      footer={null}
+
+    >
+      <Form
+      name="basic"
+      layout='vertical'
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 20 }}
+      style={{ maxWidth: 600 }}
+      initialValues={{ remember: true }}
+      onFinish={onFinish_tag}
+      onFinishFailed={onFinishFailed_tag}
+      autoComplete="off"
+    >
+
+      <Form.Item
+        label="Tag name"
+        name="Tag_name"
+        rules={[{ required: true, message: 'Please input the name of tag' }]}
+      >
+        <Input />
+      </Form.Item>
+
+         <Cut_TagCascader_Form handleSelectedValues={ SetParentTag} InselectedValues={ParentTag} />
+    
+  
+  
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit" onClick={handleCancel}>
+          Submit
+        </Button>
+
+        <Space /> <Space /><Space />   <Space /> <Space /><Space />
+
+        <Button type="primary"  onClick={handleCancel} style={{margin :" 0px 0 0 25px"}}>
+          Cancel
+        </Button>
+      </Form.Item>
+
+
+
+
+    </Form>
+    </Modal>
+  )
+}
+
+
+
+// export function EditagForm({visible , handleCancel}) {
+//   const [ParentTag , SetParentTag ] = useState(["All Tags"])
+
+//   const onFinishFailed_tag = (errorInfo) => {
+//     console.log('Failed:', errorInfo);
+//   };
+  
+//   async function  onFinish_tag(values)  {
+  
+//     const tag_name = values["Tag_name"];
+//     const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+  
+  
+//     // ParentTag=1 ; 
+//     // const Journal = values['Journal'];
+//     // const Year = values["Year"];
+//     // const authors = values["authors"];
+//     // console.log("my tag:", tag_name);
+  
+  
+    
+//     // query =  'CREATE (p:Paper { journal: $title , title: "good", year: 2024})   RETURN p'
+  
+//     // const tag_query = `MERGE (t:Tag {tag_name: $tag_name})`;
+  
+//     // await Neo4jAsk(tag_query, {tag_name : tag_name ,  }  );
+    
+//     // console.log("Create tag:" , tag_name);
+//     // const tag_parent_add_link = `MATCH (t:Tag {tag_name: $tag_name}), (tp:Tag {tag_name: $Ptag_name})
+//     // MERGE (t)-[r:IN]->(tp) return r`
+//     // await Neo4jAsk( tag_parent_add_link , {tag_name: tag_name ,Ptag_name: ParentTag   });
+  
+  
+//     // console.log("link tag:" , tag_name , "  to Parent:" , ParentTag );
+  
+//     const AddSuccess = AddTag(tag_name, ParentTag);
+  
+//     // console.log("ADD SUCC:" , AddSuccess.result);
+  
+//     AddSuccess.then((result) =>
+//       {
+//         if(result)
+//           {
+//             message.success("Success: Add Tag " + tag_name)
+//           }
+//           else
+//           {
+//             message.error("Failed: Tag " + tag_name +  " have existed!" );
+//           }
+//       }
+//     )
+  
+  
+//     // const [, forceUpdate] = useReducer(x => x + 1, 0);
+//     // forceUpdate();
+//     if(ParentTag === "All Tags")
+//     {window.location.reload();}
+//     // setflash(!flash);
+//     // console.log("Flash toogler:", toogleFlash);
+//     // toogleFlash();
+//     // setflash(!flash);
+    
+  
+//     console.log('Success:', values);
+//   };
+  
+//   return (
+//       <Modal
+//       title="Add notebook manually"
+//       visible={visible}
+//       onCancel={handleCancel}
+//       footer={null}
+
+//     >
+//       <Form
+//       name="basic"
+//       layout='vertical'
+//       labelCol={{ span: 8 }}
+//       wrapperCol={{ span: 20 }}
+//       style={{ maxWidth: 600 }}
+//       initialValues={{ remember: true }}
+//       onFinish={onFinish_tag}
+//       onFinishFailed={onFinishFailed_tag}
+//       autoComplete="off"
+//     >
+
+//       <Form.Item
+//         label="Tag name"
+//         name="Tag_name"
+//         rules={[{ required: true, message: 'Please input the name of tag' }]}
+//       >
+//         <Input />
+//       </Form.Item>
+
+//          <TagCascader_Form handleSelectedValues={ SetParentTag} InselectedValues={ParentTag} />
+    
+  
+  
+//       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+//         <Button type="primary" htmlType="submit" onClick={handleCancel}>
+//           Submit
+//         </Button>
+
+//         <Space /> <Space /><Space />   <Space /> <Space /><Space />
+
+//         <Button type="primary"  onClick={handleCancel} style={{margin :" 0px 0 0 25px"}}>
+//           Cancel
+//         </Button>
+//       </Form.Item>
+
+
+
+
+//     </Form>
+//     </Modal>
+//   )
+// }
