@@ -38,8 +38,12 @@ export  async function modifyTag(params)
 {
     // Arribute: tag_name -> str
     const modify_tag_query = `
-    MATCH (n:Tag {tag_name: $this})
-    SET n.tag_name = $new
+    MATCH (t:Tag {tag_name: $this})-[or:IN]->(op:Tag)
+    MATCH (np : Tag {tag_name: $new_parent})
+    SET t.tag_name = $new_name
+    MERGE (t)-[nr:IN]->(np)
+    DELETE or
+    RETURN nr
     `
     const mod_tag_res = await Neo4jAsk(modify_tag_query, params)
     console.log('modify Tag:', params.this)

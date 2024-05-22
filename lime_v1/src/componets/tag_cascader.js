@@ -20,6 +20,10 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         });
     }, [InselectedValues]); // 依赖于 InselectedValues
 
+    useEffect(() => {
+        console.log("current tag is", currentTag);
+    }, [currentTag]);
+
     const onChange = (value, selectedOptions) => {
         console.log("from tag_cas")
         handleSelectedValues(selectedOptions.map(option => option.value));
@@ -55,7 +59,7 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
             <Menu.Item key="edit">修改当前选中标签</Menu.Item>
         </Menu>
     );
-    
+
     const handleCancel_EditMenu = () => {
         setVizTagEditMenuV(false);
         // setflash(!flash);

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, message } from 'antd';
 import { Link } from 'react-router-dom';
 import getBigTags from "../services/get_big_tags";
 import { deleteTag } from '../services/DeleteNode';
@@ -73,17 +73,25 @@ export default function AppMenu({ setContent, setSelectedValues }) {
     );
 
     const onTagRightClick = (tag, event) => {
-        event.preventDefault(); // 阻止默认的浏览器上下文菜单
-        setCurrentTag(tag);
-        setVisibleMenu(true);
-        setMenuPosition({ x: event.clientX, y: event.clientY });
+        event.preventDefault();
+        if (tag === "All Tags"){
+            setCurrentTag(tag);
+            message.error("Cannot Modify 'All Tags'!");
+            return;
+            // window.location.reload();
+        }
+        else{
+            setCurrentTag(tag);
+            setVisibleMenu(true);
+            setMenuPosition({ x: event.clientX, y: event.clientY });
+        }
     };
 
     return (
         <>
         <Dropdown
             overlay={menu}
-            visible={visibleMenu}
+            visible={visibleMenu && currentTag !== "All Tags"}
             trigger={['contextMenu']}
             onVisibleChange={(flag) => setVisibleMenu(flag)}
             overlayStyle={{ position: 'fixed', left: `${menuPosition.x}px`, top: `${menuPosition.y}px` }}

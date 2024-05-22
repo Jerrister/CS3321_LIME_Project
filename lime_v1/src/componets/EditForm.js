@@ -498,6 +498,8 @@ export function EditTagForm({visible , handleCancel, curtag}) {
   const [ParentTag , SetParentTag ] = useState(["All Tags"])
   console.log("curtag in edit tag form", curtag);
 
+  useEffect(() => {}, [curtag]);
+
   const onFinishFailed_tag = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
@@ -513,7 +515,7 @@ export function EditTagForm({visible , handleCancel, curtag}) {
     const new_name = values["Tag_name"];
     const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
 
-    const params = {this: curtag, new : new_name, parent : ParentTag};
+    const params = {this: curtag, new_name : new_name, new_parent : ParentTag};
 
     console.log("modify params: ", params);
   
@@ -543,22 +545,28 @@ export function EditTagForm({visible , handleCancel, curtag}) {
   
     console.log('Success:', values);
   };
+
+  const title = `Edit Tag ${curtag}`
   
   return (
       <Modal
-      title="Add notebook manually"
+      title={title}
       visible={visible}
       onCancel={handleCancel}
       footer={null}
 
     >
       <Form
+      key={curtag}
       name="basic"
       layout='vertical'
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 20 }}
       style={{ maxWidth: 600 }}
-      initialValues={{ remember: true }}
+      initialValues={{ 
+        Tag_name : curtag,
+        remember: true,
+      }}
       onFinish={onFinish_tag}
       onFinishFailed={onFinishFailed_tag}
       autoComplete="off"
@@ -572,7 +580,7 @@ export function EditTagForm({visible , handleCancel, curtag}) {
         <Input />
       </Form.Item>
 
-         <Cut_TagCascader_Form handleSelectedValues={ SetParentTag} InselectedValues={ParentTag} />
+         <Cut_TagCascader_Form handleSelectedValues={ SetParentTag} InselectedValues={ParentTag} CutTag={curtag} />
     
   
   
