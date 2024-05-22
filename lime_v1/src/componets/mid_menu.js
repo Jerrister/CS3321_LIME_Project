@@ -199,11 +199,13 @@ export default function AppMenu({ setContent, setSelectedValues }) {
         console.log('Deleting tag:', currentTag);
         await deleteTag(currentTag)
         setVisibleMenu(false);
+        window.location.reload();
     };
 
     const handleEdit = () => {
         console.log('Editing tag:', currentTag);
         setVisibleMenu(false);
+        window.location.reload();
     };
 
     const menu = (

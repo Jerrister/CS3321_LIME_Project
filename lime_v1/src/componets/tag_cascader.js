@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Cascader, Dropdown, Menu, message } from 'antd';
 import GetOptions from '../services/get_options';
 import { useNavigate } from 'react-router-dom';
+import { deleteTag } from '../services/DeleteNode';
 
 export default function TagCascader({handleSelectedValues, InselectedValues}) {
     const navigate = useNavigate(); // 初始化 navigate 函数
@@ -25,12 +26,14 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         navigate(`/Library/Tags/${path}`); // 使用 navigate 函数跳转到新路径
     };
     
-    const handleMenuClick = (e) => {
+    const handleMenuClick = async (e) => {
         if (e.key === 'delete') {
             console.log('Deleting tag:', currentTag);
-            // Add deletion logic here
+            await deleteTag(currentTag)
+            window.location.reload();
         } else if (e.key === 'edit') {
             console.log('Editing tag:', currentTag);
+            window.location.reload();
             // Add edit logic here
         }
         setVisibleMenu(false);
@@ -40,14 +43,14 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         event.preventDefault();
         setVisibleMenu(true);
         console.log("right click", InselectedValues[InselectedValues.length - 1]);
-        setCurrentTag("test"); 
+        setCurrentTag(InselectedValues[InselectedValues.length - 1]); 
         // setCurrentTag(selectedOptions[selectedOptions.length - 1]); 
     };
 
     const menu = (
         <Menu onClick={handleMenuClick}>
-            <Menu.Item key="delete">删除当前标签</Menu.Item>
-            <Menu.Item key="edit">修改当前标签</Menu.Item>
+            <Menu.Item key="delete">删除当前选中标签</Menu.Item>
+            <Menu.Item key="edit">修改当前选中标签</Menu.Item>
         </Menu>
     );
 
