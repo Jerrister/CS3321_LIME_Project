@@ -1,7 +1,8 @@
 import { Button, Checkbox, Form, Input , Modal ,Space, List, Spin, message} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { modifyNotebook, modifyPaper } from '../services/ModifyNode';
+import {  findTagQuery , findAuthorQuery , findNote_TagQuery} from '../services/neo4jService';
 
 // import { AddTag } from '../services/neo4jadd';
 
@@ -27,7 +28,7 @@ const EditPaper_onFinish = async (values) =>{
  values['journal'] = values["Journal"];
 //  console.log( values['year'][0]);
  await modifyPaper(values["init_title"], values);
- window.location.reload();
+//  window.location.reload();
 //  调用后端接口
 //  change_paper(values["init_title"], values);
 //  return 
@@ -51,7 +52,7 @@ const EditNote_onFinish = async (values) =>{
     //  console.log( values['year'][0]);
     await modifyNotebook(values["init_title"], values);
     
-    window.location.reload();
+    // window.location.reload();
    //  调用后端接口
 //    values['']
 //     change_note(values["init_title"], values);
@@ -62,13 +63,33 @@ const EditNote_onFinish = async (values) =>{
 export  function EditPaperForm({visible , handleCancel, initValue}) {
 
     const [form] = Form.useForm();
+    const [search_tag_list , set_search_tag_list] = useState([]);
+
+    const [search_author_list , set_search_author_list] = useState([]);
+
 
     // console.log("In Paper Edit:" , initValue)
 
     console.log("in editPaperform initValue :" , initValue);
 
-    const search_tag_list = ['Initial Tag', 'Tag1'];
-    const author_list = ["Author1", "Author2"];
+
+    const fetchData = async () => {
+       
+
+        if (initValue.length !== 0) {
+            set_search_tag_list(await findTagQuery(initValue["title"]));
+            set_search_author_list(await findAuthorQuery(initValue["title"]));
+
+            // search_tag_list = 
+        }
+        // search_tag_list = ["init Tag"]
+
+        console.log("in useeffect search_atg_list:", search_tag_list);
+
+    
+    };
+
+
 
     useEffect(() =>{
 
@@ -76,12 +97,25 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         form.setFieldValue('title',initValue['title']);
         form.setFieldValue('init_title',initValue['title']);
 
-        // 调用一下search方法
-        const search_tag_list = ['Initial Tag', 'Tag1'];
-        const author_list = ["Author1", "Author2"];
         
 
-        form.setFieldValue('authors',author_list);
+        // 调用一下search方法
+
+    
+        console.log("in editPaperform initValue :", initValue.PromiseResult);
+
+        fetchData();
+
+    
+        // const search_tag_list = ['Initial Tag', 'Tag1'];
+        // const author_list = ["Author1", "Author2"];
+
+        console.log("in editPaperform initValue :", search_tag_list);
+        
+
+        
+        form.setFieldValue('tag',search_tag_list);
+        form.setFieldValue('authors',search_author_list);
         form.setFieldValue('Journal',initValue['source']);
         form.setFieldValue('year',initValue['year']);
         form.setFieldValue('path',initValue['path']);
@@ -288,27 +322,44 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
 
     const [form] = Form.useForm();
 
+    const [search_tag_list , set_search_tag_list] = useState([]);
+
+
+
+    const fetchData = async () => {
+       
+        if (initValue.length !== 0) {
+            set_search_tag_list(await findNote_TagQuery(initValue["title"]));
+ 
+        }
+        // search_tag_list = ["init Tag"]
+
+        console.log("in useeffect search_atg_list:", search_tag_list);
+
+    
+    };
+
+
+
 
     
     console.log("in editPaperform initValue :" , initValue);
 
-    const search_tag_list = ['Initial Tag', 'Tag1'];
-    // const author_list = ["Author1", "Author2"];
 
+    // const author_list = ["Author1", "Author2"];
+    console.log("search_atg_list:",  search_tag_list);
     
 
     useEffect(() =>{
+        fetchData();
 
         console.log("set title in effect:", initValue['title']);
         form.setFieldValue('title',initValue['title']);
         form.setFieldValue('init_title',initValue['title']);
+
         
-        // 调用一下search方法
-        const search_tag_list = ['Initial Tag', 'Tag1'];
-        const author_list = ["Author1", "Author2"];
         form.setFieldValue('tag' , search_tag_list);
         form.setFieldValue('path',initValue['path']);
-
 
     },[initValue]);
 
