@@ -1,19 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect} from 'react';
 import { Table, Menu, Dropdown, Modal, message , theme} from 'antd';
 import NotReference_Page from './not_references';
 import ReactDOM from 'react-dom';
 import { deleteNote, deleteRef } from '../services/DeleteNode';
 import { EditPaperForm, EditNoteForm  } from './EditForm';
-
+import { LLMBox } from './LLM_box';
 // import {}
 
 // TODO 
 // 这里根据Content 获取All\ Reference \ Note ;  根据selectedValues 获取对应的tag
-export default function ReferenceTable(references, Content,selectedValues ,  flash ,setflash)  {
+export default function ReferenceTable(references, Content,selectedValues ,  flash ,setflash, VizLLM, setVizLLM)  {
   
    const [pagination, setPagination] = useState({ current: 1, pageSize: 10 });
 
-
+   
+   useEffect(() => {
+    console.log('VizLLM Update');
+  
+  }, [VizLLM]);
+ 
 
     const handleTableChange = (pagination, filters, sorter) => {
         // 当分页、排序、筛选变化时，触发此函数
@@ -113,6 +118,7 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
 
       const [VizPaperEditMenuV, setVizPaperEditMenuV] = useState(false);
       const [VizNoteEditMenuV, setVizNoteEditMenuV] = useState(false); 
+
     
       const handleDelete = async () => {
         // 在这里实现删除逻辑，例如调用API或更新状态
@@ -171,6 +177,10 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
         
       }
     
+      const handleCancel_LLM = () => {
+        setVizLLM(false);
+        // setflash(!flash);
+      }
 
 
       const handleCancel_EditMenu = () => {
@@ -232,6 +242,8 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
 
     <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list} />
     <EditNoteForm visible={VizNoteEditMenuV}   handleCancel={handleCancel_NoteEditMenu} initValue={init_document_list}/>
+    <LLMBox  referenceList={references}   visible={VizLLM}   handleCancel={handleCancel_LLM} />
+
     </>
 
   );

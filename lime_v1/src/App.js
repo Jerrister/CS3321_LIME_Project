@@ -37,11 +37,12 @@ function App() {
   // const [selectedBigValues, setSelectedBigValues] = useState(["All Tags"]);
 
   const [VizContent, setVizContent] =  useState("Update Log");
+  const [VizLLM, setVizLLM] = useState(true); 
 
   const router = createBrowserRouter([
     {
       path:"/",
-      element: <><Root/>  </>  ,
+      element: <><Root setVizLLM={setVizLLM}/>  </>  ,
 
       children : [
   
@@ -54,7 +55,7 @@ function App() {
             {
               // path: "Tags/:tagsid",
               path: "Tags/*",
-              element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues} flash={flash}  setflash={setflash} />,
+              element: <AllSrcPage Content={Content} selectedValues={selectedValues} setContent={setContent} setSelectedValues={setSelectedValues} flash={flash}  setflash={setflash} VizLLM={VizLLM} setVizLLM={setVizLLM} />,
               // loader: tagDataLoader,
             },
             {

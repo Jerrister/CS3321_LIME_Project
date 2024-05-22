@@ -51,9 +51,14 @@ const MenuItems = [
 
 
 
-export default function Root()  {
+export default function Root({setVizLLM})  {
   const [collapsed, setCollapsed] = useState(false);
+  
 
+  const openLLM = () => {
+    console.log("OPEN LLM");
+    setVizLLM(true);
+  }
 
 
 
@@ -62,8 +67,9 @@ export default function Root()  {
       <Sider collapsible collapsed={collapsed} onCollapse={value => setCollapsed(value)}>
         <div className="demo-logo-vertical" />
         <div className="logo" style={logo_stype }>
+
           
-          <img src={logo} alt="Logo" style={{ maxHeight: '100%',  padding: '0px 0px 0px 9px' }} />
+          <img src={logo} alt="Logo" style={{ maxHeight: '100%',  padding: '0px 0px 0px 9px' }} onClick={openLLM}/>
           {!collapsed && logo_f(collapsed)  }
         
         </div>

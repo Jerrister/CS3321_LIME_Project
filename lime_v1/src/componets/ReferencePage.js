@@ -10,9 +10,15 @@ import Title_form from './Title_Form';
 import {loader as tagDataLoader } from "../services/tags";
 
 
-export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues , flash , setflash }) {
+export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues , flash , setflash, VizLLM, setVizLLM }) {
 
     console.log("AllSrcPage Called!")
+
+       
+   useEffect(() => {
+    console.log('VizLLM Update');
+  
+  }, [VizLLM]);
 
     console.log("Content:", Content, "sV:", selectedValues)
 
@@ -29,6 +35,8 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
       console.log('refData in useEffect:', refData);
     }, [refData]);
   
+
+
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
     console.log("before ref data:", refData);
@@ -118,7 +126,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
 
       }}
     >
-        {ReferenceTable(reference_list,Content,selectedValues, flash,  setflash)}
+        {ReferenceTable(reference_list,Content,selectedValues, flash,  setflash, VizLLM, setVizLLM)}
         
         {/* <ReferenceTable reference_list={reference_list} /> */}
         

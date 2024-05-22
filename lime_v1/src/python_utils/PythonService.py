@@ -6,9 +6,31 @@ from Arxiv_crawer import extract_paper_info
 # import 
 import time
 from filter_author import extract_names_2
+from LLM import call_with_messages
 app = Flask(__name__)
 CORS(app)
 
+
+
+
+@app.route('/analyze', methods=['POST'])
+def LLM_question():
+
+    data = request.json.get('reference', '')
+    question = request.json.get('question', '')
+
+    with open("log.txt", "a") as f:
+        f.write("data:" +  str(data) + '\n' )
+        f.write("question:" +  str(question)+ '\n')
+
+    ans = call_with_messages(data_list=data, question=question)
+
+    with open("log.txt", "a") as f:
+        f.write("ans:" +  str(ans)  + '\n')
+        # f.write("question:" +  str(question))
+    
+
+    return jsonify({'result': ans})
 
 
 @app.route('/upload', methods=['POST'])
