@@ -54,3 +54,56 @@ export async function Neo4jAsk(query, params = {}) {
 }
 
 
+
+export const findTagQuery = async (title) => {
+  const session = driver.session({ database: 'no13' });
+  console.log("findTag title:", title)
+  try {
+    const result = await session.run(
+      `MATCH (p:Paper {title: $title})-[:BELONGS_TO]->(t:Tag)
+       RETURN t.tag_name AS tagName`,
+      { title }
+    );
+    console.log("find TagQuery record:" , result.records.map(record => record.get('tagName')) );
+    return result.records.map(record => record.get('tagName'));
+  } finally {
+    await session.close();
+  }
+
+};
+
+export const findAuthorQuery = async (title) => {
+  const session = driver.session({ database: 'no13' });
+  console.log("findTag title:", title)
+  try {
+    const result = await session.run(
+
+      `MATCH (p:Paper {title: $title})-[:WRITTEN_BY]->(a:Author)
+       RETURN a.name AS AuthorName`,
+      { title }
+    );
+    console.log("find TagQuery record:" , result.records.map(record => record.get('AuthorName')) );
+    return result.records.map(record => record.get('AuthorName'));
+  } finally {
+    await session.close();
+  }
+
+};
+
+
+export const findNote_TagQuery = async (title) => {
+  const session = driver.session({ database: 'no13' });
+  console.log("findTag title:", title)
+  try {
+    const result = await session.run(
+      `MATCH (n:Note {name: $title})-[:BELONGS_TO]->(t:Tag)
+       RETURN t.tag_name AS tagName`,
+      { title }
+    );
+    console.log("find TagQuery record:" , result.records.map(record => record.get('tagName')) );
+    return result.records.map(record => record.get('tagName'));
+  } finally {
+    await session.close();
+  }
+
+};

@@ -1,18 +1,14 @@
 import React, { useState, useEffect }  from 'react';
 import {  Row, Col, Card } from 'antd';
-import { InboxOutlined } from '@ant-design/icons';
 
-import { Button, Radio } from 'antd';
+import {Radio } from 'antd';
 import ReferenceTable from './reference_table';
 import { Breadcrumb,  theme} from 'antd';
-import TagCascader from "./tag_cascader";
 
-import { useLoaderData } from 'react-router';
 import Title_form from './Title_Form';
-import { useLocation } from 'react-router-dom';
+
 import {loader as tagDataLoader } from "../services/tags";
-import { map } from 'd3';
-import { toRef, toNote } from '../services/Note2Ref';
+
 
 export default function AllSrcPage({Content, selectedValues,setContent, setSelectedValues , flash , setflash }) {
 
@@ -84,7 +80,7 @@ export default function AllSrcPage({Content, selectedValues,setContent, setSelec
         <>
         <Breadcrumb style={{ margin: '20px 0' }}>
         <div style={{ display: 'flex', alignItems: 'center'}}> {/* 使用 Flex 布局 */}
-      <Title_form  selectedValues={selectedValues} setSelectedValues={setSelectedValues} />
+        <Title_form  selectedValues={selectedValues} setSelectedValues={setSelectedValues} />
 
       <div style={{ flex: 1, textAlign: 'right' }}> {/* 使用 Flex 布局，占据剩余空间并右对齐 */}
 

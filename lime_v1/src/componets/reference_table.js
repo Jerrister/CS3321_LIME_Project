@@ -230,7 +230,7 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
  
     />
 
-    <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list}/>
+    <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list} />
     <EditNoteForm visible={VizNoteEditMenuV}   handleCancel={handleCancel_NoteEditMenu} initValue={init_document_list}/>
     </>
 
