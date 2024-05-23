@@ -3,7 +3,7 @@ const express = require("express")
 const { PythonShell } = require('python-shell');
 const cors = require('cors');
 const app = express();
-const port = 7688;
+const port = 8848;
 
 app.use(cors());
 
