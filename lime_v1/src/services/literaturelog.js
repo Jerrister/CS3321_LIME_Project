@@ -6,11 +6,18 @@ import { Neo4jAsk } from "./neo4jService";
 // TODO load 对应tag和 class的data
 export async function loader(){
     // const reference_list = await get_data(params.TagsId),
-    const query = 'MATCH (p:Paper) RETURN p.year AS year, COUNT(*) AS cnt'
+    const query = `
+    MATCH (n:Paper)
+    WHERE n.build_time IS NOT NULL
+    WITH n, split(n.build_time, '/') AS date_parts
+    WITH n, date_parts[0] AS year, date_parts[1] AS month
+    RETURN year, month, count(n) AS cnt
+    ORDER BY year, month
+    `
     const result = await Neo4jAsk(query, {})
     const reference_list = result.map(record => {
             return {
-              year: record.get('year').toInt(), // 将年份转换为整数
+              year: record.get('year')+'-'+record.get('month'), // 将年份转换为整数
               value: record.get('cnt').toInt(), // 将数量转换为整数
               sales: 0
             };

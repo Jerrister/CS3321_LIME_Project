@@ -52,10 +52,7 @@ export  async function deleteNote(note_title)
 
 export  async function deleteTag(tag_name)
 {
-    // const all_tags_id = await get_all_tags_id();
-    const all_tags_id = 39;
-
-    // console.log("ati at delete", all_tags_id);
+    const all_tags_id=get_all_tags_id();
 
     const dele_note_query = `// 1. 找到要删除的Tag及其父节点、子节点、相关的Paper和Notebook
     MATCH (parent:Tag)<-[r2:IN]-(tag:Tag {tag_name: $del_tag_name})
