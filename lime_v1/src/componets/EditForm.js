@@ -1,8 +1,9 @@
 import { Button, Checkbox, Form, Input , Modal ,Space, List, Spin, message} from 'antd';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
-import { modifyNotebook, modifyPaper } from '../services/ModifyNode';
-import {  findTagQuery , findAuthorQuery , findNote_TagQuery} from '../services/neo4jService';
+import React, {useEffect, useState, useReducer} from 'react';
+import { modifyNotebook, modifyPaper, modifyTag } from '../services/ModifyNode';
+import { Cut_TagCascader_Form } from './tag_cascader_form';
+import { findAuthorQuery, findNote_TagQuery, findTagQuery } from '../services/neo4jService';
 
 // import { AddTag } from '../services/neo4jadd';
 
@@ -489,4 +490,116 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
       </Form>
       </Modal>
     )
+}
+
+
+
+export function EditTagForm({visible , handleCancel, curtag}) {
+  const [ParentTag , SetParentTag ] = useState(["All Tags"])
+  console.log("curtag in edit tag form", curtag);
+
+  useEffect(() => {}, [curtag]);
+
+  const onFinishFailed_tag = (errorInfo) => {
+    console.log('Failed:', errorInfo);
+  };
+  
+  async function  onFinish_tag(values)  {
+
+
+    if (typeof values["selectedOption"] == "undefined"){
+      values["selectedOption"] = ["All Tags"]
+    }
+
+    console.log("values", values)
+    const new_name = values["Tag_name"];
+    const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+
+    const params = {this: curtag, new_name : new_name, new_parent : ParentTag};
+
+    console.log("modify params: ", params);
+  
+    const ModSuccess = modifyTag(params);
+  
+    // console.log("ADD SUCC:" , AddSuccess.result);
+  
+    ModSuccess.then((result) =>
+      {
+        if(result){
+            message.success("Successfully Edit Tag " + curtag)
+          }
+          else{
+            message.error("Failed to edit: " + curtag);
+          }
+          window.location.reload();
+      }
+    )
+    // const [, forceUpdate] = useReducer(x => x + 1, 0);
+    // forceUpdate();
+    // if(ParentTag === "All Tags")
+    //   {window.location.reload();}
+    // setflash(!flash);
+    // console.log("Flash toogler:", toogleFlash);
+    // toogleFlash();
+    // setflash(!flash);
+  
+    console.log('Success:', values);
+  };
+
+  const title = `Edit Tag ${curtag}`
+  
+  return (
+      <Modal
+      title={title}
+      visible={visible}
+      onCancel={handleCancel}
+      footer={null}
+
+    >
+      <Form
+      key={curtag}
+      name="basic"
+      layout='vertical'
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 20 }}
+      style={{ maxWidth: 600 }}
+      initialValues={{ 
+        Tag_name : curtag,
+        remember: true,
+      }}
+      onFinish={onFinish_tag}
+      onFinishFailed={onFinishFailed_tag}
+      autoComplete="off"
+    >
+
+      <Form.Item
+        label="Tag name"
+        name="Tag_name"
+        rules={[{ required: true, message: 'Please input the name of tag' }]}
+      >
+        <Input />
+      </Form.Item>
+
+         <Cut_TagCascader_Form handleSelectedValues={ SetParentTag} InselectedValues={ParentTag} CutTag={curtag} />
+    
+  
+  
+      <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+        <Button type="primary" htmlType="submit" onClick={handleCancel}>
+          Submit
+        </Button>
+
+        <Space /> <Space /><Space />   <Space /> <Space /><Space />
+
+        <Button type="primary"  onClick={handleCancel} style={{margin :" 0px 0 0 25px"}}>
+          Cancel
+        </Button>
+      </Form.Item>
+
+
+
+
+    </Form>
+    </Modal>
+  )
 }

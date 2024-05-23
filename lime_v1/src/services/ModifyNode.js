@@ -34,19 +34,21 @@ export  async function modifyNotebook(notebookname,params)
     return del_paper_res;
 }
 
-export  async function modifyTag(tagname,params)
+export  async function modifyTag(params)
 {
     // Arribute: tag_name -> str
-    const dele_note_query = `
-    MATCH (n:Tag {name: $tagname})
-    SET n.tag_name = $tag_name, n.path= $path
+    const modify_tag_query = `
+    MATCH (t:Tag {tag_name: $this})-[or:IN]->(op:Tag)
+    MATCH (np : Tag {tag_name: $new_parent})
+    SET t.tag_name = $new_name
+    MERGE (t)-[nr:IN]->(np)
+    DELETE or
+    RETURN nr
     `
+    const mod_tag_res = await Neo4jAsk(modify_tag_query, params)
+    console.log('modify Tag:', params.this)
 
-    params.tagname=tagname
-    const del_paper_res = await Neo4jAsk(dele_note_query, params)
-    console.log('modify Tag:', tagname)
-
-    return del_paper_res;
+    return mod_tag_res;
 }
 
 export  async function modifyPaper(papername,params)

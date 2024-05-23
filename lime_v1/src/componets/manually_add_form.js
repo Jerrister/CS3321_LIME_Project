@@ -533,9 +533,16 @@ export function ManuallyAddTagForm({visible , handleCancel}) {
   };
   
   async function  onFinish_tag(values)  {
+    console.log("values", values)
+
+    if (typeof values["selectedOption"] == "undefined"){
+      values["selectedOption"] = ["All Tags"]
+    }
   
     const tag_name = values["Tag_name"];
     const ParentTag = values["selectedOption"][ values["selectedOption"].length - 1  ];
+
+    console.log("set parent as", ParentTag);
   
   
     // ParentTag=1 ; 
@@ -581,7 +588,7 @@ export function ManuallyAddTagForm({visible , handleCancel}) {
     // const [, forceUpdate] = useReducer(x => x + 1, 0);
     // forceUpdate();
     if(ParentTag === "All Tags")
-    {window.location.reload();}
+      {window.location.reload();}
     // setflash(!flash);
     // console.log("Flash toogler:", toogleFlash);
     // toogleFlash();

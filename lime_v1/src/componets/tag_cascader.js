@@ -2,12 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Cascader, Dropdown, Menu, message } from 'antd';
 import GetOptions from '../services/get_options';
 import { useNavigate } from 'react-router-dom';
+import { deleteTag } from '../services/DeleteNode';
+import { EditTagForm } from './EditForm';
 
 export default function TagCascader({handleSelectedValues, InselectedValues}) {
     const navigate = useNavigate(); // 初始化 navigate 函数
     const [options, setOptions] = useState([]);
     const [visibleMenu, setVisibleMenu] = useState(false);
     const [currentTag, setCurrentTag] = useState(null);
+    const [VizTagEditMenuV, setVizTagEditMenuV] = useState(false);
     // console.log("Inselected value in TagCascader:",InselectedValues);
 
     useEffect(() => {
@@ -17,6 +20,10 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         });
     }, [InselectedValues]); // 依赖于 InselectedValues
 
+    useEffect(() => {
+        console.log("current tag is", currentTag);
+    }, [currentTag]);
+
     const onChange = (value, selectedOptions) => {
         console.log("from tag_cas")
         handleSelectedValues(selectedOptions.map(option => option.value));
@@ -25,13 +32,15 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         navigate(`/Library/Tags/${path}`); // 使用 navigate 函数跳转到新路径
     };
     
-    const handleMenuClick = (e) => {
+    const handleMenuClick = async (e) => {
         if (e.key === 'delete') {
             console.log('Deleting tag:', currentTag);
-            // Add deletion logic here
+            await deleteTag(currentTag)
+            window.location.reload();
         } else if (e.key === 'edit') {
             console.log('Editing tag:', currentTag);
-            // Add edit logic here
+            setVisibleMenu(false);
+            setVizTagEditMenuV(true);
         }
         setVisibleMenu(false);
     };
@@ -40,18 +49,24 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
         event.preventDefault();
         setVisibleMenu(true);
         console.log("right click", InselectedValues[InselectedValues.length - 1]);
-        setCurrentTag("test"); 
+        setCurrentTag(InselectedValues[InselectedValues.length - 1]); 
         // setCurrentTag(selectedOptions[selectedOptions.length - 1]); 
     };
 
     const menu = (
         <Menu onClick={handleMenuClick}>
-            <Menu.Item key="delete">删除当前标签</Menu.Item>
-            <Menu.Item key="edit">修改当前标签</Menu.Item>
+            <Menu.Item key="delete">删除当前选中标签</Menu.Item>
+            <Menu.Item key="edit">修改当前选中标签</Menu.Item>
         </Menu>
     );
 
+    const handleCancel_EditMenu = () => {
+        setVizTagEditMenuV(false);
+        // setflash(!flash);
+      }
+
     return (
+        <>
         <Dropdown overlay={menu} visible={visibleMenu} onVisibleChange={setVisibleMenu} trigger={['contextMenu']}>
             <div style={{ width: "656px" }}>
                 <Cascader
@@ -67,5 +82,7 @@ export default function TagCascader({handleSelectedValues, InselectedValues}) {
                 />
             </div>
         </Dropdown>
+        <EditTagForm visible={VizTagEditMenuV}   handleCancel={handleCancel_EditMenu} curtag={currentTag}/>
+        </>
     );
 }

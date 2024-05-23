@@ -1,4 +1,5 @@
 // TODO according different BIG Tags
+import { configConsumerProps } from "antd/es/config-provider";
 import { Neo4jAsk } from "./neo4jService";
 
 // function convertNeo4jIntegerToInt(neo4jInteger) {
@@ -71,13 +72,7 @@ export default async function GetOptions(InselectedValues) {
     console.log("Inselected elements are:", InselectedValues);
 
     const bigTag = InselectedValues[0]
-    // const query = `
-    // MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
-    // RETURN child.tag_name AS name, ID(child) AS id, COLLECT(ID(parent)) AS parentIds
-    // UNION
-    // MATCH (child:Tag)-[:IN*0]->(root:Tag {tag_name: $bigTag})
-    // RETURN child.tag_name AS name, ID(child) AS id, [] AS parentIds
-    // `;
+
     const query = `
     MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
     RETURN child.tag_name AS name, COLLECT(parent.tag_name) AS parentNames
@@ -97,87 +92,47 @@ export default async function GetOptions(InselectedValues) {
     }
 }
 
+export async function GetCutOptions(InselectedValues, CutTag) {
+  console.log("Inselected elements are:", InselectedValues, CutTag);
 
-// import { Neo4jAsk } from "./neo4jService";
+  const bigTag = InselectedValues[0]
+  // const query = `
+  // MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
+  // RETURN child.tag_name AS name, ID(child) AS id, COLLECT(ID(parent)) AS parentIds
+  // UNION
+  // MATCH (child:Tag)-[:IN*0]->(root:Tag {tag_name: $bigTag})
+  // RETURN child.tag_name AS name, ID(child) AS id, [] AS parentIds
+  // `;
 
+  const query = `
+      MATCH (child:Tag)-[:IN]->(parent:Tag)-[:IN*0..]->(root:Tag {tag_name: $bigTag})
+      RETURN child.tag_name AS name, COLLECT(parent.tag_name) AS parentNames
+      UNION
+      MATCH (child:Tag)-[:IN*0]->(root:Tag {tag_name: $bigTag})
+      RETURN child.tag_name AS name, [] AS parentNames
+    `;
+  const params_all = {bigTag : bigTag}
+  const params_cut = {bigTag : CutTag}
+  try {
+      const all_records = await Neo4jAsk(query, params_all);
+      const cut_records = await Neo4jAsk(query, params_cut);
 
+      const allTags = all_records.map(record => record.get('name'));
+      const cutTags = cut_records.map(record => record.get('name'));
 
-// async function buildTree(paths) {
-//   const idToNodeMap = new Map();
+      console.log("All:", allTags);
+      console.log("Cut:", cutTags);
+      // Compute the difference
+      const filteredTags = allTags.filter(tag => !cutTags.includes(tag));
 
-//   paths.forEach(path => {
-//       let lastNode = null;
+      // Assuming buildTree needs records, re-map the filtered names to a suitable structure if necessary
+      const filteredRecords = all_records.filter(record => filteredTags.includes(record.get('name')));
 
-//       path.forEach((node, index) => {
-//           const nodeId = node.identity.toString();
-//           if (!idToNodeMap.has(nodeId)) {
-//               // 创建新节点
-//               const newNode = {
-//                   value: nodeId,
-//                   label: node.properties.tag_name,
-//                   children: []
-//               };
-//               idToNodeMap.set(nodeId, newNode);
-
-//               // 如果不是根节点，将其添加为父节点的子节点
-//               if (lastNode) {
-//                   lastNode.children.push(newNode);
-//               }
-//           }
-
-//           // 更新最后处理的节点引用
-//           lastNode = idToNodeMap.get(nodeId);
-//       });
-//   });
-
-//   // 假设根节点已知，并从字典中获取
-//   return Array.from(idToNodeMap.values()).filter(node => node.children.length > 0);
-// }
-
-// export default async function GetOptions( InselectedValues ) {
-
-//   const options = [ // 这是一个示例的 options 数组，你可以根据你的需求进行修改
-//   {
-//     value: 'level1',
-//     label: 'Level 1',
-//     children: [
-//       {
-//         value: 'level1-1',
-//         label: 'Level 1-1',
-//         children: [
-//           {
-//             value: 'level1-1-1',
-//             label: 'Level 1-1-1',
-//           },
-//           {
-//             value: 'level1-1-2',
-//             label: 'Level 1-1-2',
-//           },
-//         ],
-//       },
-//       {
-//         value: 'level1-2',
-//         label: 'Level 1-2',
-//       },
-//     ],
-//   },
-//   {
-//     value: 'level2',
-//     label: 'Level 2',
-//     children: [
-//       {
-//         value: 'level2-1',
-//         label: 'Level 2-1',
-//       },
-//       {
-//         value: 'level2-2',
-//         label: 'Level 2-2',
-//       },
-//     ],
-//   },
-// ];
-//     console.log("The returned tree is ", options);
-//     return(
-//       options
-//     )
-// }
+      const tree = buildTree(filteredRecords);
+      console.log("The option is ", tree);
+      return tree;
+  } catch (error) {
+      console.error("Error fetching and building tree:", error);
+      return []; // 返回空数组或错误信息
+  }
+}

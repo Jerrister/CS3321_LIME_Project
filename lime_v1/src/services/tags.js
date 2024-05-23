@@ -58,11 +58,11 @@ export async function loader(selectedValues, Content){
     let reference_list = []
     console.log("Content:" , Content);
     console.log("Content Bool:" , Content === "Paper");
+    var query = ``;
 
     if (Content === "Notebook")
     {
-        let query = ``;
-        if (cur_tag == "All Tags") {
+        if (cur_tag == "All Tags"){
             query = `
             MATCH (n:Note)
             RETURN DISTINCT n
@@ -90,7 +90,6 @@ export async function loader(selectedValues, Content){
     }
     else
     {
-        let query = ``;
         if (cur_tag == "All Tags"){
             query = `
             MATCH (p:Paper)
@@ -104,7 +103,7 @@ export async function loader(selectedValues, Content){
             RETURN DISTINCT p
             ORDER BY p.build_time DESC
             `;
-        }
+        } 
         const result = await Neo4jAsk(query, {tag : cur_tag})
         console.log("in dataloader, select values:",  result);
         reference_list = result.map(record => {
