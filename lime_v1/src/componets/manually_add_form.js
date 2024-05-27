@@ -417,6 +417,26 @@ export function ManuallyAddNoteForm({visible , handleCancel}) {
 export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist})
 {
   const [form] = Form.useForm();
+  const [selectedDocuments, setSelectedDocuments] = useState([]);
+
+
+  // useEffect(() => {
+  //   const initialValues = documentList.map(doc => ({
+  //     selected: false,  // 初始化为未选中
+  //     title: doc.title,
+  //     path: doc.path,
+  //     author: doc.author,
+  //     Journal: doc.Journal,  // 注意属性名称的大小写
+  //     year: doc.year
+  //   }));
+
+  //   form.setFieldsValue({ documents: initialValues });
+  //   setSelectedDocuments(initialValues.map(() => false));
+  //   console.log("Form FieldValue:", form.getFieldValue() );
+  //   // console.log("Form FieldsValue:", form.getFielsdValue() );
+  // }, [documentList, form]);
+
+
 
   useEffect(() => {
     // 构建表单需要的数据结构
@@ -433,11 +453,31 @@ export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist
   
     // 使用 setFieldsValue 更新表单值
     form.setFieldsValue(formValues);
+    // setSelectedDocuments(formValues["documents"].map(() => false));
+
+    console.log("Select Documents: " , selectedDocuments);
   
-    console.log("Form values set for updated document list.");
+    console.log("Form values set for updated document list:", formValues );
   }, [Filelist, form]);
 
-  const onFinish_Filelist = (values) => {
+
+
+  const handleSelectChange = (checked, index) => {
+    const newSelectedDocs = [...selectedDocuments];
+    newSelectedDocs[index] = checked;
+    setSelectedDocuments(newSelectedDocs);
+
+    // 更新表单字段值
+    const currentDocs = form.getFieldValue('documents');
+    currentDocs[index].selected = checked;
+    form.setFieldsValue({ documents: currentDocs });
+  };
+
+
+
+
+  const onFinish_Filelist = async (values) => {
+    console.log("documents in onFinish:" ,values.documents);
     for(let i = 0 ; i < values.documents.length; i ++)
       {
         // console.log("VALUE:" , values.documents[i]["selected"]);
@@ -449,7 +489,7 @@ export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist
           value["Title"] = res["title"];
           value["path"] = res["path"];
           value["authors"] = res["author"];
-          AddPaper(value);
+          await AddPaper(value);
           console.log("VALUE:" , value);
         }
 
@@ -460,11 +500,10 @@ export function CheckpointForm({visible , handleCancel, Filelist, handleFilelist
 console.log('Success:', values);
 //  setflash(!flash);
 //  toogleFalsh();
-window.location.reload();
+// window.location.reload();
 
 
 };
-
 
 
   return (
@@ -492,7 +531,7 @@ window.location.reload();
                       initialValue={false}
                       noStyle
                     >
-                      <Checkbox />
+                      <Checkbox onChange={e => handleSelectChange(e.target.checked, index)} />
                     </Form.Item>
                     <Form.Item name={['documents', index, 'title']} initialValue={item.title} noStyle>
                       <Input readOnly style={{ width: '427px', marginRight: '10px' ,       overflow: 'hidden',   textOverflow: 'ellipsis',}} />

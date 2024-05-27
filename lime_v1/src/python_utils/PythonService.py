@@ -29,9 +29,7 @@ def LLM_question():
         f.write("ans:" +  str(ans)  + '\n')
         # f.write("question:" +  str(question))
     
-
     return jsonify({'result': ans})
-
 
 @app.route('/upload', methods=['POST'])
 def upload_files():
@@ -56,7 +54,6 @@ def upload_files():
 
 @app.route('/search', methods=['POST'])
 def search_files():
-
 
     time_start = time.time()
     query = request.json.get('query', '')

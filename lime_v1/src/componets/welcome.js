@@ -38,9 +38,10 @@ const WelcomeBlock = () => {
         <div style={{ height: "200px" }}>
         <img src={logo_img} alt="Logo" style={{ maxHeight: '100%',  padding: '0px 0px 0px 9px' }} />
         </div>
+
        
         <h3>Welcome to your <spen style={{color: 'rgb(155 236 47)'}}>Lime</spen>  - Literature Note Manager System</h3>
-        <p> Some introduction ...</p>
+        <p  style={{ color: "gray"}}> <b>LIME</b> is a <b>Li</b>terature Note <b>M</b>anager syst<b>E</b>m  based on neo4j dataset that allows researchers and students to manager their literatures and notebook in local and visualize the relation between different notebooks and literatures.Using this manager, the user find the location of literature and notebooks in their computer no longer troubled by too many and messy literature. </p>
       </div>
     </Card>
 

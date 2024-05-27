@@ -5,6 +5,7 @@ import ReactDOM from 'react-dom';
 import { deleteNote, deleteRef } from '../services/DeleteNode';
 import { EditPaperForm, EditNoteForm  } from './EditForm';
 import { LLMBox } from './LLM_box';
+import PDFViewer from './padViewer';
 // import {}
 
 // TODO 
@@ -18,6 +19,8 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
     console.log('VizLLM Update');
   
   }, [VizLLM]);
+
+
  
 
     const handleTableChange = (pagination, filters, sorter) => {
@@ -119,6 +122,16 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
       const [VizPaperEditMenuV, setVizPaperEditMenuV] = useState(false);
       const [VizNoteEditMenuV, setVizNoteEditMenuV] = useState(false); 
 
+
+      const [Vizpdf, setVizpdf] = useState(false); 
+      const [pdfurl, seturl] = useState(""); 
+
+      useEffect(() => {
+        console.log('pdfurl:' , pdfurl);
+      
+      }, [pdfurl]);
+      
+
     
       const handleDelete = async () => {
         // 在这里实现删除逻辑，例如调用API或更新状态
@@ -182,6 +195,12 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
         // setflash(!flash);
       }
 
+      const handleCancel_pdf = () => {
+        setVizpdf(false);
+        console.log("PDFVIZ:" , Vizpdf )
+        // setflash(!flash);
+      }
+
 
       const handleCancel_EditMenu = () => {
         setVizPaperEditMenuV(false);
@@ -200,9 +219,35 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
           ]}
         />
       );
-    
+
+
       const onRow = (record, rowIndex) => {
         return {
+          onClick: () =>
+            {
+              console.log("DIR:" ,  process.env.REACT_APP_APP_PATH);
+              let url = record["path"];
+              if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('file://')) {
+                // 假设 url 是一个本地文件路径
+                url =  `${ process.env.REACT_APP_APP_PATH }/${url.replace(/\\/g, '/')}`; // 将 Windows 路径中的反斜杠替换为斜杠
+                
+                // seturl(URL.createObjectURL(url));
+                // console.log("set url:" ,url);
+                // setVizpdf(true);
+                window.open(url, '_blank'); 
+                
+            
+              }
+              else{
+                window.open(url, '_blank'); 
+
+              }
+              
+              
+              // window.location.href = url; // 左键点击跳转到指定 URL
+            }
+            
+          ,
           onContextMenu: event => {
             event.preventDefault(); // 阻止默认的浏览器上下文菜单
             setCurrentRecord(record); // 存储当前行的数据
@@ -243,6 +288,8 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
     <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list} />
     <EditNoteForm visible={VizNoteEditMenuV}   handleCancel={handleCancel_NoteEditMenu} initValue={init_document_list}/>
     <LLMBox  referenceList={references}   visible={VizLLM}   handleCancel={handleCancel_LLM} />
+
+    <PDFViewer url={pdfurl}  visible={Vizpdf}   handleCancel={handleCancel_pdf} />
 
     </>
 

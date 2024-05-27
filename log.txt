@@ -43,3 +43,37 @@ question:最新的文献 是
 ans:根据提供的文献管理系统数据，最新的文献是：
 
 《Exploring Time-Frequency Domain Target Speaker Extraction For Causal and Non-Causal Processing》，发表于2024年，来源为IEEE。
+
+ begin: 1716803506.9697597 , query: AI 
+Begin:0.0030007362365722656
+
+ begin: 1716803525.8757963 , query: AI 
+Begin:0.002001523971557617
+
+ begin: 1716803586.0521464 , query: AI 
+Begin:0.0009999275207519531
+
+ begin: 1716803644.920824 , query: AI 
+Begin:0.002001523971557617
+
+ begin: 1716804796.9100878 , query: AI 
+Begin:0.0010004043579101562
+
+ begin: 1716804869.5748434 , query: AI 
+Begin:0.0021305084228515625
+
+ begin: 1716804990.4311392 , query: AI 
+Begin:0.0009980201721191406
+
+ begin: 1716805008.3881257 , query: AI 
+Begin:0.002002239227294922
+
+ begin: 1716805044.2041533 , query: A 
+Begin:0.0
+extract need:1.6065571308135986
+result: [{'title': 'Self-consistent evaluation of proximity and inverse proximity effects with pair-breaking in diffusive SN junctions', 'author': ['Arpit Raj', 'Patrick A. Lee', 'Gregory A. Fiete'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15770', 'Journal': 'arVix'}, {'title': 'Improved Particle Approximation Error for Mean Field Neural Networks', 'author': ['Atsushi Nitanda'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15767', 'Journal': 'arVix'}, {'title': 'Enhancing Adverse Drug Event Detection with Multimodal Dataset: Corpus Creation and Model Development', 'author': ['Pranab Sahoo', 'Ayush Kumar Singh', 'Sriparna Saha', 'Aman Chadha', 'Samrat Mondal'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15766', 'Journal': 'arVix'}, {'title': 'Self-sensing with hollow cylindrical transducers for histotripsy enhanced aspiration mechanical thrombectomy applications', 'author': ['Li Gong', 'Alex R. Wright', 'Kullervo Hynynen', 'David E. Goertz'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15764', 'Journal': 'arVix'}, {'title': 'GPT is Not an Annotator: The Necessity of Human Annotation in Fairness Benchmark Construction', 'author': ['Virginia K. Felkner', 'Jennifer A. Thompson', 'Jonathan May'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15760', 'Journal': 'arVix'}, {'title': 'Looking Backward: Streaming Video-to-Video Translation with Feature Banks', 'author': ['Feng Liang', 'Akio Kodaira', 'Chenfeng Xu', 'Masayoshi Tomizuka', 'Kurt Keutzer', 'Diana Marculescu'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15757', 'Journal': 'arVix'}, {'title': 'Score-based generative models are provably robust: an uncertainty quantification perspective', 'author': ['Nikiforos Mimikos-Stamatopoulos', 'Benjamin J. Zhang', 'Markos A. Katsoulakis'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15754', 'Journal': 'arVix'}, {'title': 'Filtered Corpus Training (FiCT) Shows that Language Models can Generalize from Indirect Evidence', 'author': ['Abhinav Patil', 'Jaap Jumelet', 'Yu Ying Chiu', 'Andy Lapastora', 'Peter Shen', 'Lexie Wang', 'Clevis Willrich', 'Shane Steinert-Threlkeld'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15750', 'Journal': 'arVix'}, {'title': 'Characterizing Discourse Group Roles in Inquiry-based University Science Labs', 'author': ['Tong Wan', 'Juliette Pimbert', 'Ying Cao', 'Pierre-Philippe A. Ouimet'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15746', 'Journal': 'arVix'}, {'title': 'On Flexible Inverse Probability of Treatment and Intensity Weighting: Informative Censoring, Variable Inclusion, and Weight Trimming', 'author': ['Grace Tompkins', 'Joel A Dubin', 'Michael Wallace'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15740', 'Journal': 'arVix'}]
+
+ begin: 1716805050.7059162 , query: A 
+Begin:0.0
+extract need:1.3937733173370361
+result: [{'title': 'Self-consistent evaluation of proximity and inverse proximity effects with pair-breaking in diffusive SN junctions', 'author': ['Arpit Raj', 'Patrick A. Lee', 'Gregory A. Fiete'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15770', 'Journal': 'arVix'}, {'title': 'Improved Particle Approximation Error for Mean Field Neural Networks', 'author': ['Atsushi Nitanda'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15767', 'Journal': 'arVix'}, {'title': 'Enhancing Adverse Drug Event Detection with Multimodal Dataset: Corpus Creation and Model Development', 'author': ['Pranab Sahoo', 'Ayush Kumar Singh', 'Sriparna Saha', 'Aman Chadha', 'Samrat Mondal'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15766', 'Journal': 'arVix'}, {'title': 'Self-sensing with hollow cylindrical transducers for histotripsy enhanced aspiration mechanical thrombectomy applications', 'author': ['Li Gong', 'Alex R. Wright', 'Kullervo Hynynen', 'David E. Goertz'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15764', 'Journal': 'arVix'}, {'title': 'GPT is Not an Annotator: The Necessity of Human Annotation in Fairness Benchmark Construction', 'author': ['Virginia K. Felkner', 'Jennifer A. Thompson', 'Jonathan May'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15760', 'Journal': 'arVix'}, {'title': 'Looking Backward: Streaming Video-to-Video Translation with Feature Banks', 'author': ['Feng Liang', 'Akio Kodaira', 'Chenfeng Xu', 'Masayoshi Tomizuka', 'Kurt Keutzer', 'Diana Marculescu'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15757', 'Journal': 'arVix'}, {'title': 'Score-based generative models are provably robust: an uncertainty quantification perspective', 'author': ['Nikiforos Mimikos-Stamatopoulos', 'Benjamin J. Zhang', 'Markos A. Katsoulakis'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15754', 'Journal': 'arVix'}, {'title': 'Filtered Corpus Training (FiCT) Shows that Language Models can Generalize from Indirect Evidence', 'author': ['Abhinav Patil', 'Jaap Jumelet', 'Yu Ying Chiu', 'Andy Lapastora', 'Peter Shen', 'Lexie Wang', 'Clevis Willrich', 'Shane Steinert-Threlkeld'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15750', 'Journal': 'arVix'}, {'title': 'Characterizing Discourse Group Roles in Inquiry-based University Science Labs', 'author': ['Tong Wan', 'Juliette Pimbert', 'Ying Cao', 'Pierre-Philippe A. Ouimet'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15746', 'Journal': 'arVix'}, {'title': 'On Flexible Inverse Probability of Treatment and Intensity Weighting: Informative Censoring, Variable Inclusion, and Weight Trimming', 'author': ['Grace Tompkins', 'Joel A Dubin', 'Michael Wallace'], 'year': '24 May, 2024', 'path': 'https://arxiv.org/pdf/2405.15740', 'Journal': 'arVix'}]

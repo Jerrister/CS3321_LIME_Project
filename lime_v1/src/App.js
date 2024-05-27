@@ -37,7 +37,7 @@ function App() {
   // const [selectedBigValues, setSelectedBigValues] = useState(["All Tags"]);
 
   const [VizContent, setVizContent] =  useState("Update Log");
-  const [VizLLM, setVizLLM] = useState(true); 
+  const [VizLLM, setVizLLM] = useState(false); 
 
   const router = createBrowserRouter([
     {

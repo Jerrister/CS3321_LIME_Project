@@ -62,7 +62,7 @@ export function AddNewButton(flash , setflash) {
     const handlFilesCancel = () => {
       setcheckFileVisible(false);
 
-      setFilelist([]);
+      // setFilelist([]);
     };
 
     
@@ -105,7 +105,7 @@ export function AddNewButton(flash , setflash) {
         const result = response.data.result;
 
         setFilelist(result);
-        setflash(!flash);
+        // setflash(!flash);
 
 
 
