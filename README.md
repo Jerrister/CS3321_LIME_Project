@@ -68,6 +68,20 @@
 
 
 
+#### LLM assistant 
+
+- we use the LLM API from Tongyi Qianwen
+
+-  Get the key follow  [authentic doc](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key?spm=a2c4g.11186623.0.0.fd243116VM86QL )
+
+- set the configuration in `lime_v1\src\python_utils\LLM.py`
+
+  ```
+  dashscope.api_key=" × × × × × ×"
+  ```
+
+  
+
 
 
 
@@ -119,7 +133,7 @@
 
 
 
-- LLM analyze
+- LLM analyzer
 
 
 
