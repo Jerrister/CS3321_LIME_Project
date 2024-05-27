@@ -84,5 +84,5 @@ def search_files():
     return jsonify({'result': result})
 
 if __name__ == '__main__':
-    app.run(debug=True, port=7688)
+    app.run(debug=True, port=8848)
 

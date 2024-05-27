@@ -21,7 +21,7 @@ const DocumentSearch = ({visible, setVisible}) => {
     setLoading(true);
     // setDocumentList([]);
     try {
-      const response = await axios.post('http://127.0.0.1:7688/search', { query: value });
+      const response = await axios.post('http://127.0.0.1:8848/search', { query: value });
       setDocumentList(response.data.result);
       setLoading(false);
       setVisible(true);

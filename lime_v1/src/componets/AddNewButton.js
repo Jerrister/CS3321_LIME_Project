@@ -95,7 +95,7 @@ export function AddNewButton(flash , setflash) {
 
   
       try {
-        const response = await axios.post('http://127.0.0.1:7688/upload', formData, {
+        const response = await axios.post('http://127.0.0.1:8848/upload', formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
