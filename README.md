@@ -130,62 +130,47 @@
 
 - :file_folder: multi-way importer
 
-  <div style="display: flex; justify-content: space-around; text-align: center;">
-      <div>
-          <p>Import from arxiv</p>
-          <img src="img/import_arvix.gif" alt="First GIF" width="300" />
-      </div>
-      <div>
-          <p>Import from file folder</p>
-          <img src="img/import_file.gif" alt="Second GIF" width="300" />
-      </div>
-      <div>
-          <p>Import munnally</p>
-          <img src="img/import_munual.gif" alt="Third GIF" width="300" />
-      </div>
-  </div>
-
-
+  | Import from arxiv                  | Import from file folder            | Import manually                     |
+  | ---------------------------------- | ---------------------------------- | ----------------------------------- |
+  | ![First GIF](img/import_arvix.gif) | ![Second GIF](img/import_file.gif) | ![Third GIF](img/import_munual.gif) |
 
 
 
 - :chart: delete \ edit 
 
   <div style="display: flex; justify-content: space-around; text-align: center;">
-      <div>
-          <p>  Paper delete and edit </p>
-                      <video width="400" controls>
-                  <source src="img/edit_delete.mp4" type="video/mp4">
-                  Your browser does not support the video tag.
-              </video>
+      <div style="margin: 10px;">
+          <p>Paper delete and edit</p>
+          <video width="400" controls>
+              <source src="img/edit_delete.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
       </div>
-          <div>
-                  <p> delete Tag and edit </p>
-                 <video width="400" controls>
-                  <source src="img/delete_tag.mp4" type="video/mp4">
-                  Your browser does not support the video tag.
-              </video>
-          </div>
+      <div style="margin: 10px;">
+          <p>Delete Tag and edit</p>
+          <video width="400" controls>
+              <source src="img/delete_tag.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+          </video>
+      </div>
   </div>
 
 
 
 - :radio: visualization
 
-  
-
 <div style="display: flex; justify-content: space-around; text-align: center;">
-    <div>
-        <p>📜 Log Tracking </p>
+    <div style="margin: 10px;">
+        <p>📜 Log Tracking</p>
         <img src="img/tag_log.gif" alt="First GIF" width="400" />
     </div>
-        <div>
-                <p> :label: Tag Count </p>
-               <video width="400" controls>
-                <source src="img/log_track.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+    <div style="margin: 10px;">
+        <p>🏷️ Tag Count</p>
+        <video width="400" controls>
+            <source src="img/log_track.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
 </div>
 
 
