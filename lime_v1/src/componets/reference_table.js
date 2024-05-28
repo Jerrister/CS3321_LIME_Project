@@ -17,10 +17,7 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
    
    useEffect(() => {
     console.log('VizLLM Update');
-  
   }, [VizLLM]);
-
-
  
 
     const handleTableChange = (pagination, filters, sorter) => {
@@ -35,8 +32,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
     let columns = [];
     if (Content === "Notebook")
       {
-
-  
         columns = [
           {
             title: 'Title',
@@ -45,7 +40,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
             sorter: (a, b) =>  a.title.localeCompare(b.title),
             sortDirections: ['descend','ascend'],
           },
-    
             {
               title: 'Path',
               dataIndex: 'path',
@@ -61,7 +55,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
               sorter: (a, b) =>  a.source.localeCompare(b.source),
               sortDirections: ['descend','ascend'],
             },
-  
       // ...其他列的定义
   ];
 
@@ -103,8 +96,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
 ];
       
     }
-    
- 
 
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
@@ -171,7 +162,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
           {
             setVizPaperEditMenuV(true);
             setinit_document_list(currentRecord)
-    
             setVisibleMenu(false);
             
           }
@@ -179,7 +169,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
           {
             setVizNoteEditMenuV(true);
             setinit_document_list(currentRecord)
-    
             setVisibleMenu(false);
             
           }
@@ -288,7 +277,6 @@ export default function ReferenceTable(references, Content,selectedValues ,  fla
     <EditPaperForm visible={VizPaperEditMenuV}   handleCancel={handleCancel_EditMenu} initValue={init_document_list} />
     <EditNoteForm visible={VizNoteEditMenuV}   handleCancel={handleCancel_NoteEditMenu} initValue={init_document_list}/>
     <LLMBox  referenceList={references}   visible={VizLLM}   handleCancel={handleCancel_LLM} />
-
     <PDFViewer url={pdfurl}  visible={Vizpdf}   handleCancel={handleCancel_pdf} />
 
     </>

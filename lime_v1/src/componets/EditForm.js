@@ -112,9 +112,6 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         // const author_list = ["Author1", "Author2"];
 
         console.log("in editPaperform initValue :", search_tag_list);
-        
-
-        
         form.setFieldValue('tag',search_tag_list);
         form.setFieldValue('authors',search_author_list);
         form.setFieldValue('Journal',initValue['source']);
@@ -128,12 +125,12 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
 
     return (
         <Modal
-        title="Add reference manually"
+        title="Edit reference "
         visible={visible}
         onCancel={handleCancel}
         footer={null}
-
       >
+
         <Form
         form = {form}
         name="basic"
@@ -141,16 +138,6 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 20 }}
         style={{ maxWidth: 600 }}
-        // initialValues={{ 
-        //     remember: true,
-        //     // title: ,
-        //     // year: ,
-        //     // Journal: initValue['source'],
-        //     // path: initValue['path'],
-        //     // tag: search_tag_list,
-        //     // authors: author_list,
-        //     // init_title:  initValue['title']
-        //   }}
         onFinish={EditPaper_onFinish}
         onFinishFailed={onFinishFailed}
         autoComplete="off"
@@ -233,8 +220,6 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.Item
           label="Path"
           name="path"
-        //   value={initValue['path']}
-        //   rules={[{ required: f, message: 'Please input the local path of reference' }]}
         >
           <Input />
         </Form.Item>
@@ -243,9 +228,7 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.Item
           label="init_title"
           name="init_title"
-        //   value={initValue['title']}
           hidden
-        //   rules={[{ required: true, message: 'Please input the local path of reference' }]}
         >
           <Input />
         </Form.Item>
@@ -255,7 +238,6 @@ export  function EditPaperForm({visible , handleCancel, initValue}) {
         <Form.List
         name="tag"
         label="Tag(s)"
-        // initialValue={search_tag_list} // 初始化时有一个作者输入
         style = {{margin: "-15px 0 0 8px"}}
         
       >

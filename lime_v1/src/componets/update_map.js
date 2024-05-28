@@ -5,22 +5,6 @@ import ReactECharts from 'echarts-for-react';
 
 class InteractiveBarChart extends React.Component {
     render() {
-        // 模拟数据
-        // const data = [
-        //     { year: '2021-01', value: 100, readCount: 200 },
-        //     { year: '2021-02', value: 150, readCount: 250 },
-        //     { year: '2021-03', value: 120, readCount: 300 },
-        //     { year: '2021-04', value: 180, readCount: 350 },
-        //     { year: '2021-05', value: 100, readCount: 200 },
-        //     { year: '2021-06', value: 150, readCount: 250 },
-        //     { year: '2021-07', value: 120, readCount: 300 },
-        //     { year: '2021-08', value: 180, readCount: 350 },
-        //     { year: '2021-09', value: 100, readCount: 200 },
-        //     { year: '2021-10', value: 150, readCount: 250 },
-        //     { year: '2021-11', value: 120, readCount: 300 },
-        //     { year: '2021-12', value: 180, readCount: 350 },
-        //     // 更多数据...
-        // ];
         const { data } = this.props; // 从属性中获取传入的数据
 
         // 初始颜色
