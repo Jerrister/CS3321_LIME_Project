@@ -110,18 +110,87 @@
 
 
 
-
 ## Function
 
-- 📜 Log Tracking
+- :notebook_with_decorative_cover: literature table ;  tag tree ;  paper literature column;  page 
+
+  :mag:  sort  ; domain search ; interval search
+
+  <div align="center">
+      <video width="600" controls>
+          <source src="img/result_pre.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+      </video>
+      </div>
+
+  ​    
 
 
 
-<TODO 两张log图>
+
+- :file_folder: multi-way importer
+
+  <div style="display: flex; justify-content: space-around; text-align: center;">
+      <div>
+          <p>Import from arxiv</p>
+          <img src="img/import_arvix.gif" alt="First GIF" width="300" />
+      </div>
+      <div>
+          <p>Import from file folder</p>
+          <img src="img/import_file.gif" alt="Second GIF" width="300" />
+      </div>
+      <div>
+          <p>Import munnally</p>
+          <img src="img/import_munual.gif" alt="Third GIF" width="300" />
+      </div>
+  </div>
 
 
 
-- :label: Tag Count
+
+
+- :chart: delete \ edit 
+
+  <div style="display: flex; justify-content: space-around; text-align: center;">
+      <div>
+          <p>  Paper delete and edit </p>
+                      <video width="400" controls>
+                  <source src="img/edit_delete.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+      </div>
+          <div>
+                  <p> delete Tag and edit </p>
+                 <video width="400" controls>
+                  <source src="img/delete_tag.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+              </video>
+          </div>
+  </div>
+
+
+
+- :radio: visualization
+
+  
+
+<div style="display: flex; justify-content: space-around; text-align: center;">
+    <div>
+        <p>📜 Log Tracking </p>
+        <img src="img/tag_log.gif" alt="First GIF" width="400" />
+    </div>
+        <div>
+                <p> :label: Tag Count </p>
+               <video width="400" controls>
+                <source src="img/log_track.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+</div>
+
+
+
+
 
 
 
@@ -133,14 +202,17 @@
 
 
 
-- LLM analyzer
+- :robot:   LLM analyzer
+
+<div align="center">
+<p>
+<img src="img/LLM_use.gif" alt="SLAM-LLM Logo" style="width: 800px; height: 400px;">
+</p>
+</div>
 
 
 
 
 
-- 
+ 
 
-
-
-- fold syn

@@ -4,7 +4,7 @@ from dashscope import Generation  # 建议dashscope SDK 的版本 >= 1.14.0
 
 import dashscope
 # 换用自己通议千问的key
-dashscope.api_key=""
+dashscope.api_key="sk-a542efb1fe274360b0d1a6115aca4e26"
 
 def call_with_messages(data_list, question):
 
