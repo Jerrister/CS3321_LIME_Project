@@ -159,19 +159,8 @@
 
 - :radio: visualization
 
-<div style="display: flex; justify-content: space-around; text-align: center;">
-    <div style="margin: 10px;">
-        <p>📜 Log Tracking</p>
-        <img src="img/tag_log.gif" alt="First GIF" width="400" />
-    </div>
-    <div style="margin: 10px;">
-        <p>🏷️ Tag Count</p>
-        <video width="400" controls>
-            <source src="img/log_track.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </div>
-</div>
+<div style="display: flex; justify-content: space-around; text-align: center;">     <div style="margin: 10px;">         <p>📜 Log Tracking</p>         <img src="img/tag_log.gif" alt="First GIF" width="400" />     </div>     <div style="margin: 10px;">         <p>🏷️ Tag Count</p>         <video width="400" controls>             <source src="img/log_track.mp4" type="video/mp4">             Your browser does not support the video tag.         </video>     </div> </div>
+
 
 
 
