@@ -340,7 +340,6 @@ export  function EditNoteForm({visible , handleCancel, initValue}) {
         form.setFieldValue('title',initValue['title']);
         form.setFieldValue('init_title',initValue['title']);
 
-        
         form.setFieldValue('tag' , search_tag_list);
         form.setFieldValue('path',initValue['path']);
 

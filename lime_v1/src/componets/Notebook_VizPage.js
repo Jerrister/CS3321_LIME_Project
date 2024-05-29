@@ -13,14 +13,6 @@ import { Outlet } from 'react-router';
 
 import LineBarChart from './update_map';
 
-// const data = [
-//   { year: 2010, value: 40, sales: 100 },
-//   { year: 2011, value: 50, sales: 120 },
-//   { year: 2012, value: 55, sales: 150 },
-//   { year: 2013, value: 70, sales: 180 },
-//   { year: 2014, value: 90, sales: 220 },
-//   { year: 2015, value: 100, sales: 240 }
-// ];
 
 export default function Notebook_VizPage({Content, setContent}) {
 
@@ -30,10 +22,6 @@ export default function Notebook_VizPage({Content, setContent}) {
     const {
         token: { colorBgContainer, borderRadiusLG },
       } = theme.useToken();
-
-    // const [Content, setContent] = useState("All");
-
-    // const [selectedValues, setSelectedValues] = useState(BigTag);
 
     return (
         <>
@@ -65,13 +53,6 @@ export default function Notebook_VizPage({Content, setContent}) {
     >
       <LineBarChart data={data} />
 
-
-
-        {/* {UpdateLog_viz(reference_list,Content,selectedValues)} */}
-
-        
-        {/* <ReferenceTable reference_list={reference_list} /> */}
-        
     </Card>
 
   </div>

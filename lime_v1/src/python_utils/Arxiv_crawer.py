@@ -16,9 +16,7 @@ def extract_paper_info(query, num = 10):
         return []
 
     soup = BeautifulSoup(response.content, 'html.parser')
-
     results = []
-    # cnt = 0
 
     # Extracting the elements containing the paper information
     for result in soup.find_all('li', class_='arxiv-result'):
@@ -48,8 +46,6 @@ def extract_paper_info(query, num = 10):
             })
         if len(results) == num:
             break
-
-    
 
     return results
 

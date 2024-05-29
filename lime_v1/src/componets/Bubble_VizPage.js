@@ -56,11 +56,6 @@ export default function Bubble_VizPage({Content, setContent}) {
 
     <BubbleChart data={data} />
 
-
-        {/* {UpdateLog_viz(reference_list,Content,selectedValues)} */}
-
-        
-        {/* <ReferenceTable reference_list={reference_list} /> */}
         
     </Card>
 
