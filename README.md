@@ -16,6 +16,7 @@
 
 
 
+
 ## Start 
 
 #### get the system github repo
@@ -72,7 +73,7 @@
 
 - we use the LLM API from Tongyi Qianwen
 
--  Get the key follow  [authentic doc](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key?spm=a2c4g.11186623.0.0.fd243116VM86QL )
+- Get the key follow  [authentic doc](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key?spm=a2c4g.11186623.0.0.fd243116VM86QL )
 
 - set the configuration in `lime_v1\src\python_utils\LLM.py`
 
@@ -110,6 +111,7 @@
 
 
 
+
 ## Function
 
 - :notebook_with_decorative_cover: literature table ;  tag tree ;  paper literature column;  page 
@@ -122,6 +124,7 @@
           Your browser does not support the video tag.
       </video>
       </div>
+
 
   ​    
 
@@ -170,6 +173,7 @@
 
 
 
+
 - 🔗 Connection Web
 
 <div style="display: flex; justify-content: space-around; text-align: center;">
@@ -184,6 +188,7 @@
 
 
 
+
 - :robot:   LLM analyzer
 
 <div align="center">
@@ -191,6 +196,7 @@
 <img src="img/LLM_use.gif" alt="SLAM-LLM Logo" style="width: 800px; height: 400px;">
 </p>
 </div>
+
 
 
 
