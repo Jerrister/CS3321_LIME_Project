@@ -198,7 +198,15 @@
 
 - 🔗 Connection Web
 
-<TODO log的网络图>
+<div style="display: flex; justify-content: space-around; text-align: center;">
+        <div>
+                <p> :label: Graph</p>
+               <video width="400" controls>
+                <source src="img/graph.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+</div>
 
 
 
