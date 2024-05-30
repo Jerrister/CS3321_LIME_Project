@@ -16,6 +16,7 @@
 
 
 
+
 ## Start 
 
 #### get the system github repo
@@ -72,7 +73,7 @@
 
 - we use the LLM API from Tongyi Qianwen
 
--  Get the key follow  [authentic doc](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key?spm=a2c4g.11186623.0.0.fd243116VM86QL )
+- Get the key follow  [authentic doc](https://help.aliyun.com/zh/dashscope/developer-reference/activate-dashscope-and-create-an-api-key?spm=a2c4g.11186623.0.0.fd243116VM86QL )
 
 - set the configuration in `lime_v1\src\python_utils\LLM.py`
 
@@ -110,6 +111,7 @@
 
 
 
+
 ## Function
 
 - :notebook_with_decorative_cover: literature table ;  tag tree ;  paper literature column;  page 
@@ -117,11 +119,11 @@
   :mag:  sort  ; domain search ; interval search
 
   <div align="center">
-      <video width="600" controls>
-          <source src="img/result_pre.mp4" type="video/mp4">
-          Your browser does not support the video tag.
-      </video>
-      </div>
+        <img src="img/res_pre.gif" alt="First GIF" /> 
+  </div>
+
+  
+
 
   ​    
 
@@ -138,28 +140,17 @@
 
 - :chart: delete \ edit 
 
-  <div style="display: flex; justify-content: space-around; text-align: center;">
-      <div style="margin: 10px;">
-          <p>Paper delete and edit</p>
-          <video width="400" controls>
-              <source src="img/edit_delete.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-          </video>
-      </div>
-      <div style="margin: 10px;">
-          <p>Delete Tag and edit</p>
-          <video width="400" controls>
-              <source src="img/delete_tag.mp4" type="video/mp4">
-              Your browser does not support the video tag.
-          </video>
-      </div>
-  </div>
+  <div style="display: flex; justify-content: space-around; text-align: center;">     <div style="margin: 10px;">         <p>🏷️ Tag delete</p>         <img src="img/tag_delete.gif" alt="First GIF" width="400" />     </div>     <div style="margin: 10px;">         <p>📜 Paper edit </p>        <div align="center">
+        <img src="img/edit_delete.gif" alt="First GIF"  width="400px"/> 
+  </div>   </div> </div>
 
 
 
 - :radio: visualization
 
-<div style="display: flex; justify-content: space-around; text-align: center;">     <div style="margin: 10px;">         <p>📜 Log Tracking</p>         <img src="img/tag_log.gif" alt="First GIF" width="400" />     </div>     <div style="margin: 10px;">         <p>🏷️ Tag Count</p>         <video width="400" controls>             <source src="img/log_track.mp4" type="video/mp4">             Your browser does not support the video tag.         </video>     </div> </div>
+<div style="display: flex; justify-content: space-around; text-align: center;">     <div style="margin: 10px;">         <p>🏷️ Tag Count</p>         <img src="img/tag_log.gif" alt="First GIF" width="400" />     </div>     <div style="margin: 10px;">         <p>📜 Log Tracking </p>        <div align="center">
+      <img src="img/log_track.gif" alt="First GIF"  width="400px"/> 
+</div>   </div> </div>
 
 
 
@@ -172,15 +163,14 @@
 
 - 🔗 Connection Web
 
-<div style="display: flex; justify-content: space-around; text-align: center;">
-        <div>
-                <p> :label: Graph</p>
-               <video width="400" controls>
-                <source src="img/graph.mp4" type="video/mp4">
-                Your browser does not support the video tag.
-            </video>
-        </div>
+<div align="center">
+      <img src="img/link_graph.gif" alt="First GIF" /> 
 </div>
+
+
+
+
+
 
 
 
@@ -191,6 +181,7 @@
 <img src="img/LLM_use.gif" alt="SLAM-LLM Logo" style="width: 800px; height: 400px;">
 </p>
 </div>
+
 
 
 
